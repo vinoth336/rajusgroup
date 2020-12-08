@@ -5,7 +5,7 @@
     //$services = $servicesForEnquiries;
     ?>
     <section id="slider" class=""
-        style="background-image: url('http://rajusgroup.test/site/images/site_images/bg.jpg');background-repeat: no-repeat;background-size: cover;">
+        style="background-image: url('{{ asset('/site/images/site_images/bg.jpg')  }}');background-repeat: no-repeat;background-size: cover;">
 
         <div class="container clearfix">
             <div class="row">
@@ -250,7 +250,7 @@
     <section id="content">
         <div class="content-wrap">
             <div class="container clearfix">
-                <div class="section header-stick" style="padding-bottom: 0px; margin-bottom:20px;">
+                <div class="section header-stick" style="padding-bottom: 0px;margin-bottom:20px;margin-top: 0.3rem !important;">
                     <div class="container clearfix">
                         <div class="row">
                             <div class="col-lg-12">
