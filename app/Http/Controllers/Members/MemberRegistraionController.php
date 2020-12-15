@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 
 class MemberRegistraionController extends Controller
 {
@@ -128,17 +130,17 @@ class MemberRegistraionController extends Controller
                     'password' => $memberRegistrationRequest->password,
                     'member_code' => generateMemberCodeNumber()
                 ]);
-
                 $memberRegistrationRequest->is_verified = true;
                 $memberRegistrationRequest->save();
 
                 DB::commit();
+
             } else {
                 return view('users.verified');
             }
 
 
-            return redirect()->route('member.dashboard');
+            return redirect()->route('public.login')->with('status', 'Email Verified Successfully, Please login to continue the process');
 
         } catch (ModelNotFoundException $e) {
             return abort(404);

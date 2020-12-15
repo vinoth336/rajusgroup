@@ -156,6 +156,7 @@ class AdminMemberController extends Controller
         $member->phone_no = $request->phone_no;
         $member->username = $request->username;
         $member->password = $member->password ?? Hash::make('Welcome1');
+        $member->member_code = generateMemberCodeNumber();
         $member->save();
 
         $image = $request->has('profile_photo') ? $request->file('profile_photo') : null;

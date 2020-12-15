@@ -258,9 +258,9 @@ class Member extends Authenticatable
         }
     }
 
-    public function scopeWhereMemberCode($code)
+    public function scopeWhereMemberCode($query, $code)
     {
-        return $this->where('member_code', $code);
+        return $query->where('member_code', $code);
     }
 
 }
