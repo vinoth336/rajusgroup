@@ -14,9 +14,10 @@
     <meta property="og:site_name" content="Wedding Decorators in Coimbatore">
     <meta property="article:publisher" content="https://www.facebook.com/marriedly">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@MarriedlyWeddingPlanner">
-    <meta name="twitter:site" content="@MarriedlyWeddingPlanner">
+    <meta name="twitter:creator" content="@@RajusMatrimony">
+    <meta name="twitter:site" content="@@RajusMatrimony">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 	<link
 		href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Poppins:300,400,500,600,700|PT+Serif:400,400i&amp;display=swap"
@@ -48,6 +49,13 @@
             padding-top:0px;
         }
     </style>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 </head>
 
 <body class="stretched">

@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Traits\StoreImage;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Jamesh\Uuid\HasUuid;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class Member extends Authenticatable
@@ -14,6 +16,8 @@ class Member extends Authenticatable
     use SoftDeletes, HasUuid, StoreImage;
 
     protected $guard = 'member';
+
+    protected $redirectTo = '/';
 
     protected $fillable = [
         'first_name',
@@ -27,7 +31,8 @@ class Member extends Authenticatable
         'blood_id',
         'gender',
         'phone_no',
-        'email_verified_at'
+        'email_verified_at',
+        'member_code'
     ];
 
     protected $dates = [
@@ -101,6 +106,45 @@ class Member extends Authenticatable
         return $this->hasOne(MemberHoroscope::class, 'member_id', 'id');
     }
 
+
+    public function interest_received_profiles()
+    {
+        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id')
+        ->where('profile_member_id', auth()->user()->id);
+    }
+
+    public function interest_sent_profiles()
+    {
+        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id')
+        ->where('member_id', auth()->user()->id);
+    }
+
+    public function interested_profiles()
+    {
+        return $this->hasMany(MemberInterestedProfile::class, 'member_id', 'id')->where('profile_status', PROFILE_INTEREST);
+    }
+
+
+    public function shortlisted_profiles()
+    {
+        return $this->hasMany(MemberInterestedProfile::class, 'member_id', 'id')->where('profile_status', PROFILE_SHORTLIST);
+    }
+
+    public function ignored_profiles()
+    {
+        return $this->hasMany(MemberInterestedProfile::class, 'member_id', 'id')->where('profile_status', PROFILE_IGNORED);
+    }
+
+    public function member_viewed_profiles()
+    {
+        return $this->hasMany(MemberViewedProfile::class, 'member_id', 'id');
+    }
+
+    public function member_profile_viewed()
+    {
+        return $this->hasMany(MemberViewedProfile::class, 'profile_member_id', 'id');
+    }
+
     public function getNameAttribute()
     {
         return $this->first_name . " " . $this->last_name;
@@ -117,18 +161,22 @@ class Member extends Authenticatable
         return ucfirst($name);
     }
 
+    public function getAgeAttribute()
+    {
+        return Carbon::parse($this->attributes['dob'])->age;
+    }
+
     public function secureProfilePhoto()
     {
-        if($this->attributes['profile_photo']) {
-            return asset('site/images/profile_photo/thumbnails/' . $this->profile_photo );
+        if ($this->attributes['profile_photo']) {
+            return asset('site/images/profile_photo/thumbnails/' . $this->profile_photo);
         } else {
-            if($this->gender == MALE) {
+            if ($this->gender == MALE) {
                 return asset('site/images/site_images/male_default.jpg');
             } else {
                 return asset('site/images/site_images/female_default.jpg');
             }
         }
-
     }
 
     public function checkIsUserCompletedIsProfileEntry()
@@ -190,23 +238,29 @@ class Member extends Authenticatable
             }
         }
 
-        if($this->horoscope == null) {
+        if ($this->horoscope == null) {
             $needed_information['horoscope'][] = 'all';
-        } elseif($this->horoscope) {
-            if($this->horoscope->rasi_id == null) {
+        } elseif ($this->horoscope) {
+            if ($this->horoscope->rasi_id == null) {
                 $needed_information['horoscope'][] = 'rasi';
             }
-            if($this->horoscope->star_id == null) {
+            if ($this->horoscope->star_id == null) {
                 $needed_information['horoscope'][] = 'rasi';
             }
-            if($this->horoscope->horoscope_image == null) {
+            if ($this->horoscope->horoscope_image == null) {
                 $needed_information['horoscope'][] = 'horoscope_image';
             }
         }
 
-        if($needed_information == null) {
+        if ($needed_information == null) {
             $this->profile_completed = 1;
             $this->save();
         }
     }
+
+    public function scopeWhereMemberCode($code)
+    {
+        return $this->where('member_code', $code);
+    }
+
 }

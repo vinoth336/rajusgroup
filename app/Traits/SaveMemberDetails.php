@@ -19,10 +19,6 @@ trait SaveMemberDetails {
             $education = $memberEducation->where("degree_id", $degreeId)->first() ?? new MemberEducation();
             $education->member_id = $member->id;
             $education->degree_id = $degreeId;
-            $education->course = $request->input('course.' . $key);
-            info('institue' . $request->input('institute.' . $key));
-            $education->institute = $request->input('institute.' . $key);
-            $education->passed_out = $request->input('passed_out.' . $key);
             $education->save();
 
             array_push($ids, $education->id);
@@ -40,6 +36,8 @@ trait SaveMemberDetails {
         $occupation->role = $request->input('role');
         $occupation->organisation_details = $request->input('organisation_details');
         $occupation->job_location = $request->input('job_location');
+        $occupation->employee_in_id = $request->input('employee_in');
+        $occupation->annual_income = ANNUAL_INCOME_RANGE_KEY_VALUE[$request->input('annual_income')] ?? null;
         $occupation->save();
 
         return $occupation;

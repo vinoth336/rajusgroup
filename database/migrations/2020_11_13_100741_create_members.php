@@ -20,6 +20,7 @@ class CreateMembers extends Migration
             $table->string('last_name');
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('member_code', 80);
             $table->string('dob');
             $table->string('blood_id');
             $table->string('gender');
@@ -31,6 +32,7 @@ class CreateMembers extends Migration
             $table->boolean('profile_verified')->nullable();
             $table->softDeletes();
             $table->timestamps();
+            $table->unique(['username', 'member_code']);
         });
     }
 

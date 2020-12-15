@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Member;
 use Illuminate\Support\Facades\DB;
 
 function createText($field)
@@ -37,4 +38,23 @@ function passedOut()
 function familyType()
 {
     return DB::table('family_type')->orderBy('order')->select('id', 'name')->get();
+}
+
+
+function generateMemberCodeNumber() {
+    $code = mt_rand(1000000000, 9999999999); // better than rand()
+
+    // call the same function if the MemberCode exists already
+    if (MemberCodeNumberExists($code)) {
+        return generateMemberCodeNumber();
+    }
+
+    // otherwise, it's valid and can be used
+    return $code;
+}
+
+function MemberCodeNumberExists($code) {
+    // query the database and return a boolean
+    // for instance, it might look like this in Laravel
+    return Member::whereMemberCode($code)->exists();
 }

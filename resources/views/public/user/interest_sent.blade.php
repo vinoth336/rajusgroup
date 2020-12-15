@@ -110,15 +110,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 profile_container scrollit" style="">
+                    <div class="col-md-6 profile_container scrollit" style="min-height:100vh;">
+                        <div class="row">
+                            <h4 class="text-center"><br>Interest Sent By You</h4>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <br>
-                                    <h3>Based on your profile details, following are matched profiles</h3>
-                                </div>
-                                <div class="row">
                                     @foreach($profiles as $profile)
+                                    @php
+                                        $profile = $profile->member;
+                                    @endphp
                                     <div class="entry event col-12 member_profile">
                                         <input type="hidden" name="member_code" value="{{ $profile->member_code }}" />
                                         <div class="grid-inner row align-items-center no-gutters p-4">
@@ -155,13 +157,6 @@
                                                     </ul>
                                                 </div>
                                                 <div class="entry-content">
-                                                    <button type="button" class="btn btn-info btn-sm add_profile_to_shortlist">
-                                                        <i class="icon-star3"></i>&nbsp;Add To Shortlist</button>
-                                                    <button type="button" class="btn btn-success btn-sm send_interest">
-                                                        <i class="icon-hand-holding-heart"></i>&nbsp;Send Interest</button>
-                                                    <button type="button" class="btn btn-danger btn-sm add_profile_to_ignore_list">
-                                                        <i class="icon-forbidden"></i>&nbsp;
-                                                        Ignore</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -177,81 +172,4 @@
             </div>
         </div>
     </section>
-<script>
-
-    $(document).ready(function() {
-        MemberDashboard.init();
-    });
-
-    var MemberDashboard = {
-        eventSendInterest : function() {
-            memberDashboard = this;
-            $(".profile_container").on('click', '.send_interest', function() {
-                    memberDashboard.sendInterest(this);
-            });
-
-            $(".profile_container").on('click', '.add_profile_to_shortlist', function() {
-                    memberDashboard.ShortListProfile(this);
-            });
-
-            $(".profile_container").on('click', '.add_profile_to_ignore_list', function() {
-                    memberDashboard.IgnoredTheProfile(this);
-            });
-
-        },
-
-        sendInterest : function(profile) {
-            var profileContainer = $(profile).closest('.member_profile');
-            $.ajax({
-                url : "/sendinterest/" + profileContainer.find('[name="member_code"]').val(),
-                type : "post",
-                dataType : "json",
-                success : function(data) {
-                        alert('success');
-                        profileContainer.fadeOut().remove();
-                },
-                error : function() {
-
-                }
-            });
-
-        },
-        ShortListProfile : function(profile) {
-            var profileContainer = $(profile).closest('.member_profile');
-            $.ajax({
-                url : "/addshortlist/" + profileContainer.find('[name="member_code"]').val(),
-                type : "post",
-                dataType : "json",
-                success : function(data) {
-                        alert('success');
-                        profileContainer.fadeOut().remove();
-                },
-                error : function() {
-
-                }
-            });
-
-        },
-        IgnoredTheProfile : function(profile) {
-            var profileContainer = $(profile).closest('.member_profile');
-            $.ajax({
-                url : "/addignore/" + profileContainer.find('[name="member_code"]').val(),
-                type : "post",
-                dataType : "json",
-                success : function(data) {
-                        alert('success');
-                        profileContainer.fadeOut().remove();
-                },
-                error : function() {
-
-                }
-            });
-        },
-        init : function() {
-            this.eventSendInterest();
-        }
-    };
-
-</script>
-
 @endsection

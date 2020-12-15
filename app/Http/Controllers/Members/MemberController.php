@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Blood;
 use App\Models\City;
 use App\Models\Degree;
+use App\Models\EmployeeIn;
 use App\Models\FamilyType;
 use App\Models\Member;
+use App\Models\MemberViewedProfile;
 use App\Models\Star;
 use App\Models\State;
 use App\Models\Zodiac;
@@ -39,7 +41,9 @@ class MemberController extends Controller
         $states = State::get();
         $rasies = Zodiac::get();
         $stars = Star::get();
-        $profiles = $this->getProfiles($request, $member);
+        $profiles = $this->getProfiles($request, $member)->get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
 
         return view('public.user.dashboard')
             ->with('member', $member)
@@ -52,15 +56,19 @@ class MemberController extends Controller
             ->with('rasies', $rasies)
             ->with('stars', $stars)
             ->with('profiles', $profiles)
+            ->with('employeeIns', $employeeIns)
             ;
     }
 
     public function getProfiles(Request $request, $member)
     {
         $profiles = Member::whereNotIn('id', [$member->id])
-        ->where('gender', '!=', $member->gender);
+        ->doesnthave('interest_sent_profiles')
+        ->where('gender', '!=', $member->gender)->with(['educations' => function($model) {
+            $model->with('degree');
+        }, 'occupation', 'location'])->inRandomOrder();
 
-        return $profiles->get();
+        return $profiles;
     }
 
     public function profile(Request $request)
@@ -75,6 +83,8 @@ class MemberController extends Controller
         $states = State::get();
         $rasies = Zodiac::get();
         $stars = Star::get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
 
         return view('public.user.profile')
             ->with('member', $member)
@@ -85,8 +95,172 @@ class MemberController extends Controller
             ->with('states', $states)
             ->with('memberHoroscope', $memberHoroscope)
             ->with('rasies', $rasies)
-            ->with('stars', $stars);
+            ->with('stars', $stars)
+            ->with('employeeIns', $employeeIns)
+            ;
     }
+
+    public function viewProfile(Request $request, $memberCode)
+    {
+        $member = auth()->user();
+        $bloodGroup = Blood::orderBy('id')->get();
+        $degrees = Degree::get();
+        $familyType = FamilyType::get();
+        $cities = City::get();
+        $memberHoroscope = $member->horoscope ?? optional();
+        $states = State::get();
+        $rasies = Zodiac::get();
+        $stars = Star::get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+        $profile = Member::where('id', '!=', $member->id)
+            ->where('member_code', '=', $memberCode)->firstOrFail();
+
+
+        $member->member_viewed_profiles()->updateOrCreate([
+            'profile_member_id' => $profile->id
+        ]);
+
+        return view('public.user.view_profile')
+        ->with('profile', $profile)
+        ->with('bloodGroup', $bloodGroup)
+        ->with('degrees', $degrees)
+        ->with('familyType', $familyType)
+        ->with('cities', $cities)
+        ->with('states', $states)
+        ->with('memberHoroscope', $memberHoroscope)
+        ->with('rasies', $rasies)
+        ->with('stars', $stars)
+        ->with('employeeIns', $employeeIns);
+    }
+
+    public function viewMemberProfileViewed(Request $request)
+    {
+        $member = auth()->user();
+
+        $bloodGroup = Blood::orderBy('id')->get();
+        $degrees = Degree::get();
+        $familyType = FamilyType::get();
+        $cities = City::get();
+        $memberHoroscope = $member->horoscope ?? optional();
+        $states = State::get();
+        $rasies = Zodiac::get();
+        $stars = Star::get();
+        $profiles = $member->member_viewed_profiles()
+        ->with('member')->orderBy('created_at', 'desc')->get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
+
+        return view('public.user.viewed_profile')
+            ->with('member', $member)
+            ->with('bloodGroup', $bloodGroup)
+            ->with('degrees', $degrees)
+            ->with('familyType', $familyType)
+            ->with('cities', $cities)
+            ->with('states', $states)
+            ->with('memberHoroscope', $memberHoroscope)
+            ->with('rasies', $rasies)
+            ->with('stars', $stars)
+            ->with('profiles', $profiles)
+            ->with('employeeIns', $employeeIns)
+            ;
+    }
+
+    public function viewMemberInterestedProfiles(Request $request)
+    {
+        $member = auth()->user();
+
+        $bloodGroup = Blood::orderBy('id')->get();
+        $degrees = Degree::get();
+        $familyType = FamilyType::get();
+        $cities = City::get();
+        $memberHoroscope = $member->horoscope ?? optional();
+        $states = State::get();
+        $rasies = Zodiac::get();
+        $stars = Star::get();
+        $profiles = $member->interested_profiles()
+        ->with('member')->orderBy('created_at', 'desc')->get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
+
+        return view('public.user.interest_sent')
+            ->with('member', $member)
+            ->with('bloodGroup', $bloodGroup)
+            ->with('degrees', $degrees)
+            ->with('familyType', $familyType)
+            ->with('cities', $cities)
+            ->with('states', $states)
+            ->with('memberHoroscope', $memberHoroscope)
+            ->with('rasies', $rasies)
+            ->with('stars', $stars)
+            ->with('profiles', $profiles)
+            ->with('employeeIns', $employeeIns)
+            ;
+    }
+
+    public function viewMemberShortListedProfiles(Request $request)
+    {
+        $member = auth()->user();
+
+        $bloodGroup = Blood::orderBy('id')->get();
+        $degrees = Degree::get();
+        $familyType = FamilyType::get();
+        $cities = City::get();
+        $memberHoroscope = $member->horoscope ?? optional();
+        $states = State::get();
+        $rasies = Zodiac::get();
+        $stars = Star::get();
+        $profiles = $member->shortlisted_profiles()
+        ->with('member')->orderBy('created_at', 'desc')->get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
+
+        return view('public.user.shortlisted_profiles')
+            ->with('member', $member)
+            ->with('bloodGroup', $bloodGroup)
+            ->with('degrees', $degrees)
+            ->with('familyType', $familyType)
+            ->with('cities', $cities)
+            ->with('states', $states)
+            ->with('memberHoroscope', $memberHoroscope)
+            ->with('rasies', $rasies)
+            ->with('stars', $stars)
+            ->with('profiles', $profiles)
+            ->with('employeeIns', $employeeIns)
+            ;
+    }
+
+    public function viewMemberIgnoredProfiles(Request $request)
+    {
+        $member = auth()->user();
+
+        $bloodGroup = Blood::orderBy('id')->get();
+        $degrees = Degree::get();
+        $familyType = FamilyType::get();
+        $cities = City::get();
+        $memberHoroscope = $member->horoscope ?? optional();
+        $states = State::get();
+        $rasies = Zodiac::get();
+        $stars = Star::get();
+        $profiles = $member->ignored_profiles()
+        ->with('member')->orderBy('created_at', 'desc')->get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
+
+        return view('public.user.ignored_profiles')
+            ->with('member', $member)
+            ->with('bloodGroup', $bloodGroup)
+            ->with('degrees', $degrees)
+            ->with('familyType', $familyType)
+            ->with('cities', $cities)
+            ->with('states', $states)
+            ->with('memberHoroscope', $memberHoroscope)
+            ->with('rasies', $rasies)
+            ->with('stars', $stars)
+            ->with('profiles', $profiles)
+            ->with('employeeIns', $employeeIns)
+            ;
+    }
+
 
     public function updateProfile(Request $request)
     {
@@ -109,6 +283,77 @@ class MemberController extends Controller
             return abort(500);
         }
 
+    }
+
+    public function addInterest(Request $request, $memberCode)
+    {
+        DB::beginTransaction();
+
+        try {
+            $member = auth()->user();
+            $intrestedMember = Member::where('id', '!=', $member->id)
+            ->where('member_code', '=', $memberCode)->firstOrFail();
+            $interestedProfile = $member->interested_profiles()->updateOrCreate(['profile_member_id' => $intrestedMember->id]);
+            $interestedProfile->request_status = PROFILE_REQUEST_PENDING;
+            $interestedProfile->profile_status = PROFILE_INTEREST;
+
+            $interestedProfile->save();
+
+            DB::commit();
+
+            return response(['status' => 'success', 'msg' => 'Added Successfully']);
+
+        }  catch(Exception $e) {
+            Log::error('Error Occurred in MemberController@addInterest - ' . $e->getMessage());
+            return abort(500);
+        }
+    }
+
+    public function addShortList(Request $request, $memberCode)
+    {
+        DB::beginTransaction();
+
+        try {
+            $member = auth()->user();
+            $intrestedMember = Member::where('id', '!=', $member->id)
+            ->where('member_code', '=', $memberCode)->firstOrFail();
+            $interestedProfile = $member->interested_profiles()->updateOrCreate(['profile_member_id' => $intrestedMember->id]);
+            $interestedProfile->request_status = null;
+            $interestedProfile->profile_status = PROFILE_SHORTLIST;
+            $interestedProfile->save();
+
+            DB::commit();
+
+            return response(['status' => 'success', 'msg' => 'Added Successfully']);
+
+        }  catch(Exception $e) {
+            Log::error('Error Occurred in MemberController@addShortList - ' . $e->getMessage());
+            return abort(500);
+        }
+    }
+
+    public function addIgnore(Request $request, $memberCode)
+    {
+        DB::beginTransaction();
+
+        try {
+            $member = auth()->user();
+            $intrestedMember = Member::where('id', '!=', $member->id)
+            ->where('member_code', '=', $memberCode)->firstOrFail();
+            $interestedProfile = $member->interested_profiles()->updateOrCreate(['profile_member_id' => $intrestedMember->id]);
+            $interestedProfile->request_status = null;
+            $interestedProfile->profile_status = PROFILE_IGNORED;
+
+            $interestedProfile->save();
+
+            DB::commit();
+
+            return response(['status' => 'success', 'msg' => 'Added Successfully']);
+
+        }  catch(Exception $e) {
+            Log::error('Error Occurred in MemberController@addShortList - ' . $e->getMessage());
+            return abort(500);
+        }
     }
 
     public function saveBasicMemberInformation(Request $request, Member $member)

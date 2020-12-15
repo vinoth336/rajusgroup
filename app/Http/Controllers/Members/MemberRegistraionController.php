@@ -126,6 +126,7 @@ class MemberRegistraionController extends Controller
                     'phone_no' => $memberRegistrationRequest->phone_no,
                     'username' => $memberRegistrationRequest->username,
                     'password' => $memberRegistrationRequest->password,
+                    'member_code' => generateMemberCodeNumber()
                 ]);
 
                 $memberRegistrationRequest->is_verified = true;

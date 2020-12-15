@@ -9,7 +9,7 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('public.index') }}">
+                <a class="menu-link" href="{{ route('member.profile') }}">
                     <div>My Profile</div>
                 </a>
             </li>

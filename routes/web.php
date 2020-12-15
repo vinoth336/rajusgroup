@@ -29,6 +29,17 @@ Route::group(['namespace' => 'Members'], function () {
         Route::get('/dashboard', 'MemberController@dashboard')->name('member.dashboard');
         Route::get('/profile', 'MemberController@profile')->name('member.profile');
         Route::put('/profile','MemberController@updateProfile');
+        Route::post('/sendinterest/{memberCode}', 'MemberController@addInterest')->name('member.send_interest');
+        Route::post('/addshortlist/{memberCode}', 'MemberController@addShortList')->name('member.add_profile_to_shortlist');
+        Route::post('/addignore/{memberCode}', 'MemberController@addIgnore')->name('member.add_profile_to_ignore_list');
+        Route::get('/view/{memberCode}', 'MemberController@viewProfile')->name('member.view_profile');
+        Route::get('/viewed_profiles', 'MemberController@viewMemberProfileViewed')->name('member.viewed_profile');
+        Route::get('/interested_profiles', 'MemberController@viewMemberInterestedProfiles')->name('member.interested_profiles');
+        Route::get('/shortlisted_profiles', 'MemberController@viewMemberShortListedProfiles')->name('member.shortlisted_profiles');
+        Route::get('/ignored_profiles', 'MemberController@viewMemberIgnoredProfiles')->name('member.ignored_profiles');
+
+
+
     });
 });
 

@@ -1,49 +1,61 @@
 <div class="w-100 line d-block d-md-none d-none d-sm-block"></div>
-                    <div class="col-md-3">
-                        <div class="title topmargin title-border">
-                            <div class="row">
-                                <div class="col-md-5 bg-info text-white" style="margin-left:7%;height: 100px">
-                                    <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">0</h2>
-                                    Response Received
-                                </div>
-                                <div class="col-md-5 bg-warning text-white " style="height: 100px;margin-left:5px">
-                                    <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">0</h2>
-                                    Viewed Your View
-                                </div>
-                            </div>
+<div class="col-md-3 right_side_bar_fixed" id="">
+    <div class="title title-border" style="margin-top:2rem !important">
+        <div class="row">
+            <div class="col-md-5 bg-info text-white" style="margin-left:7%;height: 100px">
+                <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">
+                    {{ $member->interest_received_profiles()->count() }}</h2>
+                    Response Received
+            </div>
+            <div class="col-md-5 bg-warning text-white " style="height: 100px;margin-left:5px">
+                <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">
+                    {{ $member->member_profile_viewed()->count() }}
+                </h2>
+                Viewed Your Profile
+            </div>
+        </div>
+    </div>
+    <div class="fancy-title title-border" style="margin-top:2rem !important">
+        <h4>Quick Action</h4>
+    </div>
+    <ul class="sidenav ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+        <li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
+            <a href="{{ route('member.viewed_profile') }}">
+                <i class="icon-eye"></i>Profile Viewed
+                <label class="text-info float-right" style="font-size: 18px">
+                    {{ $member->member_viewed_profiles()->count() }}
+                </label>
+            </a>
+        </li>
+        <li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
+            <a href="{{ route('member.shortlisted_profiles') }}">
+                <i class="icon-star3"></i>My ShortList
+                <label class="text-info float-right" style="font-size: 18px">
+                    {{ $member->shortlisted_profiles()->count() }}
+                </label>
+            </a>
+        </li>
+        <li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
+            <a href="{{ route('member.interested_profiles') }}">
+                <i class="icon-hand-holding-heart"></i>Interest Request
+                <label class="text-info float-right" style="font-size: 18px">
+                    {{ $member->interested_profiles()->count() }}
 
-
-                        </div>
-                        <div class="fancy-title topmargin title-border">
-                            <h4>About Me</h4>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum laboriosam, dignissimos veniam
-                            obcaecati. Quasi eaque, odio assumenda porro explicabo laborum!</p>
-                        <div class="fancy-title topmargin title-border">
-                            <h4>Social Profiles</h4>
-                        </div>
-                        <a href="#" class="social-icon si-facebook si-small si-rounded si-light" title="Facebook">
-                            <i class="icon-facebook"></i>
-                            <i class="icon-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon si-gplus si-small si-rounded si-light" title="Google+">
-                            <i class="icon-gplus"></i>
-                            <i class="icon-gplus"></i>
-                        </a>
-                        <a href="#" class="social-icon si-dribbble si-small si-rounded si-light" title="Dribbble">
-                            <i class="icon-dribbble"></i>
-                            <i class="icon-dribbble"></i>
-                        </a>
-                        <a href="#" class="social-icon si-flickr si-small si-rounded si-light" title="Flickr">
-                            <i class="icon-flickr"></i>
-                            <i class="icon-flickr"></i>
-                        </a>
-                        <a href="#" class="social-icon si-linkedin si-small si-rounded si-light" title="LinkedIn">
-                            <i class="icon-linkedin"></i>
-                            <i class="icon-linkedin"></i>
-                        </a>
-                        <a href="#" class="social-icon si-twitter si-small si-rounded si-light" title="Twitter">
-                            <i class="icon-twitter"></i>
-                            <i class="icon-twitter"></i>
-                        </a>
-                    </div>
+                </label>
+            </a>
+        </li>
+        <li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
+            <a href="{{ route('member.ignored_profiles') }}">
+                <i class="icon-forbidden"></i>My Ignored List
+                <label class="text-info float-right" style="font-size: 18px">
+                    {{ $member->ignored_profiles()->count() }}
+                </label>
+            </a>
+        </li>
+        <li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
+            <a>
+                <i class="icon-facebook-messenger"></i>Send Message To Admin
+            </a>
+        </li>
+    </ul>
+</div>
