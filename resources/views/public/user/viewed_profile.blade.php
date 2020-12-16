@@ -118,50 +118,11 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     @foreach($profiles as $profile)
-                                    @php
-                                        $profile = $profile->member;
-                                    @endphp
-                                    <div class="entry event col-12 member_profile">
-                                        <input type="hidden" name="member_code" value="{{ $profile->member_code }}" />
-                                        <div class="grid-inner row align-items-center no-gutters p-4">
-
-                                            <div class="entry-image col-md-4 mb-md-0">
-                                                <a href="#">
-                                                    <img src="{{ $profile->secureProfilePhoto() }}" alt="{{ $profile->fullName }}">
-                                                </a>
-                                            </div>
-                                            <div class="col-md-8 pl-md-4">
-                                                <div class="entry-title title-xs">
-                                                    <h2 style="text-decoration: underline">
-                                                        <a href="{{ route('member.view_profile', $profile->member_code) }}">{{ $profile->fullName }}</a></h2>
-                                                    RG{{ $profile->member_code }}
-                                                </div>
-                                                <div class="entry-meta">
-                                                    <ul>
-                                                        @php
-                                                            $profileDegree = $degrees->whereIn('id', $profile->educations->pluck('degree_id'))->pluck('name');
-                                                            $profileDegree = implode(",", $profileDegree->toArray());
-                                                            $profileLocation = $profile->location ?? optional();
-                                                            $profileLocationCity = $profileLocation->city ? $profileLocation->city->name : null;
-                                                            $profileLocationState = $profileLocation->state ? $profileLocation->state->name : null;
-                                                            $profileOccupation = $profile->occupation ?? optional();
-                                                            $memberAnnualIncome = array_search($profileOccupation->annual_income, ANNUAL_INCOME_RANGE_KEY_VALUE);
-                                                            $annualIncome = ANNUAL_INCOME_RANGE[$memberAnnualIncome] ?? null;
-                                                        @endphp
-                                                        <li>Age : {{ $profile->age }}</li>
-                                                        <li>Mother Tongue : {{ $profile->mother_tongue->name }}</li>
-                                                        <li>Education : {{ $profileDegree }}</li>
-                                                        <li>Annual Income : {{ $annualIncome }}</li>
-                                                        <li>Occupation : {{ optional($profile->occupation)->role }}</li>
-                                                        <li><i class="icon-map-marker1"></i>{{ $profileLocationCity }}, {{ $profileLocationState }}</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="entry-content">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                        @php
+                                            $profileViewInfo = $profile;
+                                            $profile = $profile->member_profile;
+                                        @endphp
+                                        @include('public.user.components.member_profile_summary')
                                     @endforeach
                                 </div>
                             </div>

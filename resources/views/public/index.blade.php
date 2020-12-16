@@ -45,7 +45,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <input type="text" class="form-control" name="first_name" placeholder="First name"
+                                        <input type="text" class="form-control"  required name="first_name" placeholder="First name"
                                             value="{{ old('first_name') }}">
                                         <span id="first_nameMsg" class="error">
                                             @error('first_name')
@@ -60,7 +60,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <input type="text" class="form-control" name="last_name" placeholder="Last name"
+                                        <input type="text" class="form-control"  required name="last_name" placeholder="Last name"
                                             value="{{ old('last_name') }}">
                                         <span id="last_nameMsg" class="error">
                                             @error('last_name')
@@ -91,7 +91,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <select class="form-control" name="blood" id="blood">
+                                        <select class="form-control"  required name="blood" id="blood">
                                             @foreach ($bloodList as $blood )
                                                 <option value="{{ $blood->id }}" @if($blood->id == old('blood')) selected @endif>{{ $blood->name }}</option>
                                             @endforeach
@@ -129,7 +129,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <select class="form-control" name="religion" id="religion">
+                                        <select class="form-control"  required name="religion" id="religion">
                                             <option value="1" selected>Hindu</option>
                                         </select>
                                         <span id="religionMsg" class="error">
@@ -145,7 +145,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <select class="form-control" name="mother_tongue" id="mother_tongue">
+                                        <select class="form-control"  required name="mother_tongue" id="mother_tongue">
                                             <option value="2" @if(old('mother_tongue') == 2) selected @endif>Telugu</option>
                                             <option value="1" @if(old('mother_tongue') == 1) selected @endif>Tamil</option>
                                         </select>
@@ -162,7 +162,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <input type="email" class="form-control" placeholder="Email" name="email"
+                                        <input type="email" class="form-control"  required placeholder="Email" name="email"
                                             value="{{ old('email') }}">
                                         <span id="emailMsg" class="error">
                                             @error('email')
@@ -177,7 +177,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <input type="number" class="form-control" placeholder="Mobile No" name="phone_no"
+                                        <input type="number" class="form-control"  required placeholder="Mobile No" name="phone_no"
                                             value="{{ old('phone_no') }}">
                                         <span id="phone_no_msg" class="error">
                                             @error('phone_no')
@@ -192,7 +192,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <input type="text" class="form-control" name="username" placeholder="User name"
+                                        <input type="text" class="form-control"  required name="username" placeholder="User name"
                                             value="{{ old('username') }}">
                                         <span id="usernameMsg" class="error">
                                             @error('username')
@@ -207,7 +207,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <input type="password" class="form-control" placeholder="Password" name="password">
+                                        <input type="password" class="form-control"  required placeholder="Password" name="password" min="6">
                                         <span id="passwordsMsg" class="error">
                                             @error('password')
                                                 {{ $message }}
@@ -221,8 +221,8 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
-                                        <input type="password" class="form-control" placeholder="Confirm Password"
-                                            name="confirm_password">
+                                        <input type="password" class="form-control"  required placeholder="Confirm Password"
+                                            name="confirm_password" min="6">
                                         <span id="confirm_password_msg" class="error">
                                             @error('confirm_password')
                                                 {{ $message }}
@@ -257,13 +257,13 @@
                                 <div class="heading-block bottommargin-sm">
                                     <h3>Who We Are</h3>
                                 </div>
-                                <p class="mb-0 justify-content-center">Marriedly is a bespoke wedding planning and
+                                <p class="mb-0 justify-content-center">Rajus Group is a bespoke wedding planning and
                                     decor company based in Coimbatore.
                                     They believe in delivering quality services to their clients.
                                     They understand the client’s vision first and then conceptualise the wedding
                                     based on those points.
                                     Their mission is to convert your vision into a beautiful reality.
-                                    The team at Marriedly specialise in Décor and Planning.
+                                    The team at Rajus Group specialise in Décor and Planning.
                                     For décor they have their own in-house team that works efficiently but they are
                                     happy to work with other decorators as well as per the clients’ requirements.
                                 </p>
@@ -280,7 +280,7 @@
 
             <div class="container clearfix">
                 <div class="row col-mb-50">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" style="display: none">
                         <h4>What our Clients Say?</h4>
                         <div class="fslider testimonial" data-animation="slide" data-arrows="false">
                             <div class="flexslider">
@@ -422,7 +422,7 @@
             });
 
             $('.datepicker').datepicker({
-                format: 'yyyy-mm-dd',
+                format: 'dd-mm-yyyy',
                 todayHighlight: true
             });
         });

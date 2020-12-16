@@ -64,7 +64,6 @@ class Member extends Authenticatable
         parent::boot();
 
         static::creating(function ($model) {
-
             if (!$model->id) {
                 $model->id = (string) Str::uuid();
             }
@@ -107,16 +106,14 @@ class Member extends Authenticatable
     }
 
 
-    public function interest_received_profiles()
+    public function interest_received()
     {
-        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id')
-        ->where('profile_member_id', auth()->user()->id);
+        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id')->where('profile_status', PROFILE_INTEREST);
     }
 
     public function interest_sent_profiles()
     {
-        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id')
-        ->where('member_id', auth()->user()->id);
+        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id')->where('member_id', auth()->user()->id);
     }
 
     public function interested_profiles()
@@ -152,7 +149,7 @@ class Member extends Authenticatable
 
     public function getDobAttribute($value)
     {
-        return date("Y-m-d", strtotime($value));
+        return date("d-m-Y", strtotime($value));
     }
 
     public function getFullNameAttribute()
@@ -261,6 +258,11 @@ class Member extends Authenticatable
     public function scopeWhereMemberCode($query, $code)
     {
         return $query->where('member_code', $code);
+    }
+
+    public function viewProfileLocation()
+    {
+        return false;
     }
 
 }

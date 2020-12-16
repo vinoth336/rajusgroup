@@ -7,6 +7,7 @@ use App\Http\Requests\MemberRegistrationSaveRequest;
 use App\Mail\SendRegistrationEmailVerification;
 use App\Models\Member;
 use App\Models\MemberRegistrationRequest;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -27,7 +28,6 @@ class MemberRegistraionController extends Controller
         DB::beginTransaction();
 
         try {
-
              $memberRegistrationRequest = MemberRegistrationRequest::create([
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
@@ -70,6 +70,10 @@ class MemberRegistraionController extends Controller
             $memberRegistrationRequest = MemberRegistrationRequest::findOrFail($id);
             $url = route('public.verify_email', $hash);
 
+            if($memberRegistrationRequest->is_verified) {
+                return redirect()->route('public.login')->with('status', 'Email Verified Successfully, Please login to continue the process');
+            }
+
             return view('users.verify_email')
             ->with(['hash' => $hash]);
 
@@ -90,6 +94,11 @@ class MemberRegistraionController extends Controller
             $hash = $request->input('hash');
             $id = decrypt($hash);
             $memberRegistrationRequest = MemberRegistrationRequest::findOrFail($id);
+
+            if($memberRegistrationRequest->is_verified) {
+                return redirect()->route('public.login')->with('status', 'Email Verified Successfully, Please login to continue the process');
+            }
+
             $this->sendVerificationEmail($memberRegistrationRequest);
 
             return redirect()->route('public.registration_success', $hash)
@@ -139,17 +148,17 @@ class MemberRegistraionController extends Controller
                 return view('users.verified');
             }
 
-
             return redirect()->route('public.login')->with('status', 'Email Verified Successfully, Please login to continue the process');
-
         } catch (ModelNotFoundException $e) {
             return abort(404);
         } catch (Exception $e) {
             Log::error('Error Occurred in MemberRegistraionController@verifyEmail - ' . $e->getMessage());
             return abort(500);
         }
+    }
 
-
+    public function setDateAttribute( $value ) {
+        $this->attributes['date'] = (new Carbon($value))->format('d-m-Y');
     }
 
     public function sendVerificationEmail($member)

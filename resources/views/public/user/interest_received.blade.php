@@ -112,7 +112,7 @@
                     </div>
                     <div class="col-md-6 profile_container scrollit" style="min-height:100vh;">
                         <div class="row">
-                            <h4 class="text-center"><br>Interest Sent By You</h4>
+                            <h4 class="text-center"><br>Interest Sent By Others</h4>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -120,7 +120,7 @@
                                     @foreach($profiles as $profile)
                                         @php
                                             $profileViewInfo = $profile;
-                                            $profile = $profile->member_profile;
+                                            $profile = $profile->member;
                                         @endphp
                                         @include('public.user.components.member_profile_summary')
 

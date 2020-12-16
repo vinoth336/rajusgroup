@@ -44,7 +44,6 @@ class MemberController extends Controller
         $profiles = $this->getProfiles($request, $member)->get();
         $employeeIns = EmployeeIn::orderBy('name')->get();
 
-
         return view('public.user.dashboard')
             ->with('member', $member)
             ->with('bloodGroup', $bloodGroup)
@@ -57,6 +56,9 @@ class MemberController extends Controller
             ->with('stars', $stars)
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
+            ->with('showShortListButton', true)
+            ->with('showSendInterestButton', true)
+            ->with('showIgnoreButton', true)
             ;
     }
 
@@ -145,8 +147,7 @@ class MemberController extends Controller
         $states = State::get();
         $rasies = Zodiac::get();
         $stars = Star::get();
-        $profiles = $member->member_viewed_profiles()
-        ->with('member')->orderBy('created_at', 'desc')->get();
+        $profiles = $member->member_viewed_profiles()->with('member_profile')->orderBy('created_at', 'desc')->get();
         $employeeIns = EmployeeIn::orderBy('name')->get();
 
 
@@ -162,6 +163,7 @@ class MemberController extends Controller
             ->with('stars', $stars)
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
+            ->with('showCreatedOn', true)
             ;
     }
 
@@ -177,8 +179,7 @@ class MemberController extends Controller
         $states = State::get();
         $rasies = Zodiac::get();
         $stars = Star::get();
-        $profiles = $member->interested_profiles()
-        ->with('member')->orderBy('created_at', 'desc')->get();
+        $profiles = $member->interested_profiles()->with('member_profile')->orderBy('created_at', 'desc')->get();
         $employeeIns = EmployeeIn::orderBy('name')->get();
 
 
@@ -194,6 +195,7 @@ class MemberController extends Controller
             ->with('stars', $stars)
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
+            ->with('showCreatedOn', true)
             ;
     }
 
@@ -210,7 +212,7 @@ class MemberController extends Controller
         $rasies = Zodiac::get();
         $stars = Star::get();
         $profiles = $member->shortlisted_profiles()
-        ->with('member')->orderBy('created_at', 'desc')->get();
+        ->with('member_profile')->orderBy('created_at', 'desc')->get();
         $employeeIns = EmployeeIn::orderBy('name')->get();
 
 
@@ -226,7 +228,7 @@ class MemberController extends Controller
             ->with('stars', $stars)
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
-            ;
+            ->with('showCreatedOn', true);
     }
 
     public function viewMemberIgnoredProfiles(Request $request)
@@ -242,7 +244,7 @@ class MemberController extends Controller
         $rasies = Zodiac::get();
         $stars = Star::get();
         $profiles = $member->ignored_profiles()
-        ->with('member')->orderBy('created_at', 'desc')->get();
+        ->with('member_profile')->orderBy('created_at', 'desc')->get();
         $employeeIns = EmployeeIn::orderBy('name')->get();
 
 
@@ -258,7 +260,37 @@ class MemberController extends Controller
             ->with('stars', $stars)
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
-            ;
+            ->with('showCreatedOn', true);
+    }
+
+    public function viewInterestReceived(Request $request)
+    {
+        $member = auth()->user();
+
+        $bloodGroup = Blood::orderBy('id')->get();
+        $degrees = Degree::get();
+        $familyType = FamilyType::get();
+        $cities = City::get();
+        $memberHoroscope = $member->horoscope ?? optional();
+        $states = State::get();
+        $rasies = Zodiac::get();
+        $stars = Star::get();
+        $profiles = $member->interest_received()->with('member')->orderBy('created_at', 'desc')->get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
+        return view('public.user.interest_received')
+            ->with('member', $member)
+            ->with('bloodGroup', $bloodGroup)
+            ->with('degrees', $degrees)
+            ->with('familyType', $familyType)
+            ->with('cities', $cities)
+            ->with('states', $states)
+            ->with('memberHoroscope', $memberHoroscope)
+            ->with('rasies', $rasies)
+            ->with('stars', $stars)
+            ->with('profiles', $profiles)
+            ->with('employeeIns', $employeeIns)
+            ->with('showCreatedOn', true);
     }
 
 

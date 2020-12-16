@@ -3,9 +3,11 @@
     <div class="title title-border" style="margin-top:2rem !important">
         <div class="row">
             <div class="col-md-5 bg-info text-white" style="margin-left:7%;height: 100px">
+                <a class="text-white" href="{{ route('member.interest_received') }}" >
                 <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">
-                    {{ $member->interest_received_profiles()->count() }}</h2>
+                    {{ $member->interest_received()->count() }}</h2>
                     Response Received
+                </a>
             </div>
             <div class="col-md-5 bg-warning text-white " style="height: 100px;margin-left:5px">
                 <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">
@@ -37,7 +39,7 @@
         </li>
         <li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
             <a href="{{ route('member.interested_profiles') }}">
-                <i class="icon-hand-holding-heart"></i>Interest Request
+                <i class="icon-hand-holding-heart"></i>My Interest Request
                 <label class="text-info float-right" style="font-size: 18px">
                     {{ $member->interested_profiles()->count() }}
 

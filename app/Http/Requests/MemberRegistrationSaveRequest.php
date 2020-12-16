@@ -29,7 +29,7 @@ class MemberRegistrationSaveRequest extends FormRequest
             'last_name' => 'string|max:50',
             'blood' => 'required|exists:bloods,id',
             'gender' => 'required|in:1,2',
-            'dob' => 'date|required|date_format:Y-m-d|before:18 years ago',
+            'dob' => 'date|required|date_format:d-m-Y|before:18 years ago',
             'religion' => 'required|in:1',
             'mother_tongue' => 'required|exists:mother_tongues,id',
             'email' => 'required|email|unique:member_registration_requests,email',

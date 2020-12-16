@@ -2,6 +2,8 @@
 @section('content')
 
 <style>
+
+@media(min-width:991.98px) {
     .fixed {
         position: fixed;
         width:23%;
@@ -16,10 +18,11 @@
         margin-left: 75%;
         width:23%;
     }
+}
     </style>
     <section id="content">
         <div class="content-wrap">
-            <div class="container-fluid px-5 clearfix">
+            <div class="container-fluid px-2 clearfix">
                 <div class="row clearfix">
                     <div class="col-md-3 d-none d-sm-block fixed">
                         <div class="row" style="overflow: auto">
@@ -115,58 +118,11 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <br>
-                                    <h3>Based on your profile details, following are matched profiles</h3>
+                                    <h3 class="px-3">Based on your profile details, following are matched profiles</h3>
                                 </div>
                                 <div class="row">
                                     @foreach($profiles as $profile)
-                                    <div class="entry event col-12 member_profile">
-                                        <input type="hidden" name="member_code" value="{{ $profile->member_code }}" />
-                                        <div class="grid-inner row align-items-center no-gutters p-4">
-
-                                            <div class="entry-image col-md-4 mb-md-0">
-                                                <a href="#">
-                                                    <img src="{{ $profile->secureProfilePhoto() }}" alt="{{ $profile->fullName }}">
-                                                </a>
-                                            </div>
-                                            <div class="col-md-8 pl-md-4">
-                                                <div class="entry-title title-xs">
-                                                    <h2 style="text-decoration: underline">
-                                                        <a href="{{ route('member.view_profile', $profile->member_code) }}">{{ $profile->fullName }}</a></h2>
-                                                    RG{{ $profile->member_code }}
-                                                </div>
-                                                <div class="entry-meta">
-                                                    <ul>
-                                                        @php
-                                                            $profileDegree = $degrees->whereIn('id', $profile->educations->pluck('degree_id'))->pluck('name');
-                                                            $profileDegree = implode(",", $profileDegree->toArray());
-                                                            $profileLocation = $profile->location ?? optional();
-                                                            $profileLocationCity = $profileLocation->city ? $profileLocation->city->name : null;
-                                                            $profileLocationState = $profileLocation->state ? $profileLocation->state->name : null;
-                                                            $profileOccupation = $profile->occupation ?? optional();
-                                                            $memberAnnualIncome = array_search($profileOccupation->annual_income, ANNUAL_INCOME_RANGE_KEY_VALUE);
-                                                            $annualIncome = ANNUAL_INCOME_RANGE[$memberAnnualIncome] ?? null;
-                                                        @endphp
-                                                        <li>Age : {{ $profile->age }}</li>
-                                                        <li>Mother Tongue : {{ $profile->mother_tongue->name }}</li>
-                                                        <li>Education : {{ $profileDegree }}</li>
-                                                        <li>Annual Income : {{ $annualIncome }}</li>
-                                                        <li>Occupation : {{ optional($profile->occupation)->role }}</li>
-                                                        <li><i class="icon-map-marker1"></i>{{ $profileLocationCity }}, {{ $profileLocationState }}</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="entry-content">
-                                                    <button type="button" class="btn btn-info btn-sm add_profile_to_shortlist">
-                                                        <i class="icon-star3"></i>&nbsp;Add To Shortlist</button>
-                                                    <button type="button" class="btn btn-success btn-sm send_interest">
-                                                        <i class="icon-hand-holding-heart"></i>&nbsp;Send Interest</button>
-                                                    <button type="button" class="btn btn-danger btn-sm add_profile_to_ignore_list">
-                                                        <i class="icon-forbidden"></i>&nbsp;
-                                                        Ignore</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                        @include('public.user.components.member_profile_summary')
                                     @endforeach
                                 </div>
                             </div>

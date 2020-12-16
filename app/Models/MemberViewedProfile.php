@@ -14,7 +14,7 @@ class MemberViewedProfile extends Model
         return $this->where('member_id', auth()->user()->id);
     }
 
-    public function member()
+    public function member_profile()
     {
         return $this->belongsTo(Member::class, 'profile_member_id', 'id');
     }
