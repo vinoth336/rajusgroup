@@ -293,6 +293,36 @@ class MemberController extends Controller
             ->with('showCreatedOn', true);
     }
 
+    public function memberViewedYourProfile(Request $request)
+    {
+        $member = auth()->user();
+
+        $bloodGroup = Blood::orderBy('id')->get();
+        $degrees = Degree::get();
+        $familyType = FamilyType::get();
+        $cities = City::get();
+        $memberHoroscope = $member->horoscope ?? optional();
+        $states = State::get();
+        $rasies = Zodiac::get();
+        $stars = Star::get();
+        $profiles = $member->member_profile_viewed()->with('member')->orderBy('created_at', 'desc')->get();
+        $employeeIns = EmployeeIn::orderBy('name')->get();
+
+        return view('public.user.who_viewed_profiles')
+            ->with('member', $member)
+            ->with('bloodGroup', $bloodGroup)
+            ->with('degrees', $degrees)
+            ->with('familyType', $familyType)
+            ->with('cities', $cities)
+            ->with('states', $states)
+            ->with('memberHoroscope', $memberHoroscope)
+            ->with('rasies', $rasies)
+            ->with('stars', $stars)
+            ->with('profiles', $profiles)
+            ->with('employeeIns', $employeeIns)
+            ->with('showCreatedOn', true);
+    }
+
 
     public function updateProfile(Request $request)
     {

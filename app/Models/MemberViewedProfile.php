@@ -18,4 +18,10 @@ class MemberViewedProfile extends Model
     {
         return $this->belongsTo(Member::class, 'profile_member_id', 'id');
     }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id', 'id');
+    }
 }
+

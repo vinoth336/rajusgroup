@@ -38,6 +38,7 @@ Route::group(['namespace' => 'Members'], function () {
         Route::get('/shortlisted_profiles', 'MemberController@viewMemberShortListedProfiles')->name('member.shortlisted_profiles');
         Route::get('/ignored_profiles', 'MemberController@viewMemberIgnoredProfiles')->name('member.ignored_profiles');
         Route::get('/interest_received', 'MemberController@viewInterestReceived')->name('member.interest_received');
+        Route::get('/who_viewed_you', 'MemberController@memberViewedYourProfile')->name('member.who_viewed_you');
 
 
 

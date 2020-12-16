@@ -10,9 +10,11 @@
                 </a>
             </div>
             <div class="col-md-5 bg-warning text-white " style="height: 100px;margin-left:5px">
-                <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">
-                    {{ $member->member_profile_viewed()->count() }}
-                </h2>
+                <a class="text-white" href="{{ route('member.who_viewed_you') }}" >
+                    <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">
+                        {{ $member->member_profile_viewed()->count() }}
+                    </h2>
+                </a>
                 Viewed Your Profile
             </div>
         </div>
