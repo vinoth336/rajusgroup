@@ -1,22 +1,6 @@
 @extends('public.app')
 @section('content')
 
-<style>
-    .fixed {
-        position: fixed;
-        width:23%;
-        margin-bottom:20px;
-    }
-    .scrollit {
-        margin-left: 25%;
-
-    }
-    .right_side_bar_fixed {
-        position: fixed;
-        margin-left: 75%;
-        width:23%;
-    }
-    </style>
     @php
     $profileEducations = $profile->educations;
     $profileOccupation = $profile->occupation ?? optional();
