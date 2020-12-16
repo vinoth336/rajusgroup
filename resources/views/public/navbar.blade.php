@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('member.send_interest') }}">
+                <a class="menu-link" href="{{ route('member.interested_profiles') }}">
                     <div>Interest Request</div>
                 </a>
             </li>
