@@ -19,7 +19,7 @@
     </style>
     <section id="content">
         <div class="content-wrap">
-            <div class="container-fluid px-5 clearfix">
+            <div class="container-fluid px-2 clearfix">
                 <div class="row clearfix">
                     <div class="col-md-3 d-none d-sm-block fixed">
                         <div class="row" style="overflow: auto">
@@ -112,7 +112,7 @@
                     </div>
                     <div class="col-md-6 profile_container scrollit" style="min-height:100vh;">
                         <div class="row">
-                            <h4 class="text-center"><br>Shortlisted Profiles By You</h4>
+                            <h4 class="text-center px-3"><br>Shortlisted Profiles By You</h4>
                         </div>
                         <div class="row">
                             <div class="col-md-12">

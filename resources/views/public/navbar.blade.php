@@ -14,23 +14,23 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('public.index') }}">
+                <a class="menu-link" href="{{ route('member.shortlisted_profiles') }}">
                     <div>My ShortList</div>
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('public.index') }}">
+                <a class="menu-link" href="{{ route('member.interest_received') }}">
                     <div>Response Received</div>
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('public.index') }}">
+                <a class="menu-link" href="{{ route('member.send_interest') }}">
                     <div>Interest Request</div>
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('public.index') }}">
-                    <div>Interested</div>
+                <a class="menu-link" href="{{ route('member.viewed_profile') }}">
+                    <div>Profile Viewed</div>
                 </a>
             </li>
             <li class="menu-item sub-menu">

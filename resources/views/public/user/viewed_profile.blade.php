@@ -19,7 +19,7 @@
     </style>
     <section id="content">
         <div class="content-wrap">
-            <div class="container-fluid px-5 clearfix">
+            <div class="container-fluid px-2 clearfix">
                 <div class="row clearfix">
                     <div class="col-md-3 d-none d-sm-block fixed">
                         <div class="row" style="overflow: auto">
