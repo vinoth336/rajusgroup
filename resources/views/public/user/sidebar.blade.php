@@ -14,8 +14,8 @@
                     <h2 style="line-height: 0.5;margin-top: 17px;margin-bottom: 10px;" class="text-white">
                         {{ $member->member_profile_viewed()->count() }}
                     </h2>
+                    Viewed Your Profile
                 </a>
-                Viewed Your Profile
             </div>
         </div>
     </div>

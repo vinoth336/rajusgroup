@@ -35,7 +35,7 @@
 
                                 <div class="form-group ">
                                     <div class=" text-white  bg-danger p-3 text-center ">
-                                        Registratin Form
+                                        Registration Form
                                     </div>
                                 </div>
 

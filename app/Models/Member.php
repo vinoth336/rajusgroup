@@ -121,7 +121,6 @@ class Member extends Authenticatable
         return $this->hasMany(MemberInterestedProfile::class, 'member_id', 'id')->where('profile_status', PROFILE_INTEREST);
     }
 
-
     public function shortlisted_profiles()
     {
         return $this->hasMany(MemberInterestedProfile::class, 'member_id', 'id')->where('profile_status', PROFILE_SHORTLIST);
@@ -264,5 +263,20 @@ class Member extends Authenticatable
     {
         return false;
     }
+
+
+    public function current_user_interest_received()
+    {
+        return $this->hasOne(MemberInterestedProfile::class, 'member_id', 'id')
+        ->where('profile_member_id', auth()->user()->id)
+        ->where('profile_status', PROFILE_INTEREST);
+    }
+
+    public function current_user_interested_profiles()
+    {
+        return $this->hasOne(MemberInterestedProfile::class, 'profile_member_id', 'id')
+        ->where('member_id', auth()->user()->id);
+    }
+
 
 }

@@ -1,4 +1,4 @@
-<div class="entry event col-12 member_profile">
+<div class="entry event col-12 member_profile ">
     <input type="hidden" name="member_code" value="{{ $profile->member_code }}" />
     <div class="grid-inner row align-items-center no-gutters p-4">
 
@@ -35,29 +35,108 @@
                     @endif
                 </ul>
             </div>
+            <div class="entry-meta">
+                @if($checkProfileStatus ?? false)
+                    @php
+                    info("-------------------------------");
+                    //$temp = $profile->current_user_interest_received;
+                    @endphp
+                    @if($profile->current_user_interest_received()->count() ?? false)
+                        am inside 1st
+                        @php
+                            $profileInterestReceived = $profile->current_user_interest_received()->first();
+                            $requestStatus = $profileInterestReceived->request_status ?? null;
+                        @endphp
+                        @if($requestStatus == PROFILE_REQUEST_PENDING)
+                            Waiting For Your Response
+                            @php
+                                $showInterestAcceptButton = true;
+                                $showInterestRejectButton = true;
+                            @endphp
+                        @endif
+                    @elseif($profile->current_user_interested_profiles()->count() ?? false)
+                            @php
+                                $profileInterestRequest = $profile->current_user_interested_profiles()->first();
+                                $requestStatus = $profileInterestRequest->request_status ?? null;
+                                $profileStatus = $profileInterestRequest->profile_status ?? null;
+                            @endphp
+                            @if($requestStatus == PROFILE_REQUEST_APPROVED && $profileStatus == PROFILE_INTEREST)
+                                Your Request Accepted
+                                @php
+                                    $showInterestRejectButton = true;
+                                @endphp
+                            @elseif($requestStatus == PROFILE_REQUEST_PENDING && $profileStatus == PROFILE_INTEREST)
+                                Your Request In Pending
+                                @php
+                                    $showDeleteRequest = true;
+                                @endphp
+                            @elseif($profileStatus == PROFILE_SHORTLIST)
+                                @php
+                                    $showSendInterestButton = true;
+                                    $showIgnoreButton = true;
+                                @endphp
+                            @elseif($profileStatus == PROFILE_IGNORED)
+                                @php
+                                    $showShortListButton = true;
+                                    $showSendInterestButton = true;
+                                    $showDeleteFromIgnoreList = true;
+                                @endphp
+                            @endif
+                    @else
+                            @php
+                                $showShortListButton = true;
+                                $showSendInterestButton = true;
+                                $showIgnoreButton = true;
+                            @endphp
+                    @endif
+
+                    @php
+                        info("------------- ENDED------------------");
+                    @endphp
+                @endif
+            </div>
             <div class="entry-content">
+                @if($showCreatedOn ?? false)
+                <h5 class="text font-italic font-normal float-right text-dark" style="margin-bottom:  0px">
+                    <i class="icon-time text-success"></i> {{ $profileViewInfo->created_at }}
+                </h5>
+                <br>
+            @endif
+                @if($showInterestAcceptButton ?? false)
+                    <button type="button" class="btn btn-success btn-sm mb-1 accept_interest">
+                        <i class="icon-line-check"></i>&nbsp;Accept
+                    </button>
+                @endif
+                @if($showInterestRejectButton ?? false)
+                    <button type="button" class="btn btn-danger btn-sm mb-1 ignore_request">
+                        <i class="icon-line-cross"></i>&nbsp;Not Interest
+                    </button>
+                @endif
+                @if($showDeleteRequest ?? false)
+                    <button type="button" class="btn btn-danger btn-sm mb-1 delete_request">
+                        <i class="icon-line-cross"></i>&nbsp;Delete Request
+                    </button>
+                @endif
                 @if($showShortListButton ?? false)
-                    <button type="button" class="btn btn-info btn-sm add_profile_to_shortlist">
+                    <button type="button" class="btn btn-info btn-sm mb-1 add_profile_to_shortlist">
                         <i class="icon-star3"></i>&nbsp;Add To Shortlist
                     </button>
                 @endif
                 @if($showSendInterestButton ?? false)
-                    <button type="button" class="btn btn-success btn-sm send_interest">
+                    <button type="button" class="btn btn-success btn-sm mb-1 send_interest">
                         <i class="icon-hand-holding-heart"></i>&nbsp;Send Interest
                     </button>
                 @endif
                 @if($showIgnoreButton ?? false)
-                    <button type="button" class="btn btn-danger btn-sm add_profile_to_ignore_list">
+                    <button type="button" class="btn btn-danger btn-sm mb-1 add_profile_to_ignore_list">
                         <i class="icon-forbidden"></i>&nbsp;Ignore
                     </button>
                 @endif
-
-                @if($showCreatedOn ?? false)
-                    <h5 class="text font-italic font-normal float-right text-dark" style="margin-bottom:  0px">
-                        <i class="icon-time text-success"></i> {{ $profileViewInfo->created_at }}
-                    </h5>
+                @if($showDeleteFromIgnoreList ?? false)
+                    <button type="button" class="btn btn-danger btn-sm mb-1 delete_from_ignore_list">
+                        <i class="icon-line-cross"></i>&nbsp;Remove From Ignore List
+                    </button>
                 @endif
-
             </div>
         </div>
     </div>

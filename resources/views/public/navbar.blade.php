@@ -9,11 +9,6 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('member.profile') }}">
-                    <div>My Profile</div>
-                </a>
-            </li>
-            <li class="menu-item">
                 <a class="menu-link" href="{{ route('member.shortlisted_profiles') }}">
                     <div>My ShortList</div>
                 </a>
@@ -35,14 +30,16 @@
             </li>
             <li class="menu-item sub-menu">
                 <a class="menu-link">
-                    <div>Portal</div>
+                    <div>Account</div>
                 </a>
                 <form id="logout-form" action="{{ route('public.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
                 <ul class="sub-menu-container">
                     <li class="menu-item">
-                        <a class="menu-link" href="admin/home">Dashboard</a>
+                        <a class="menu-link" href="{{ route('member.profile') }}">
+                            <div>My Profile</div>
+                        </a>
                     </li>
                     <li class="menu-item">
                         <a class="menu-link" href=""
