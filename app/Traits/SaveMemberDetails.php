@@ -14,7 +14,9 @@ trait SaveMemberDetails {
     {
         $memberEducation = $member->educations();
         $ids = [];
-        foreach($request->input('degree') as $key => $degree) {
+        $degrees = $request->input('degree') ?? [];
+
+        foreach($degrees as $key => $degree) {
             $degreeId = $request->input('degree.' . $key);
             $education = $memberEducation->where("degree_id", $degreeId)->first() ?? new MemberEducation();
             $education->member_id = $member->id;

@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{{ asset('site/css/swiper.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('site/style.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('site/css/components/bs-filestyle.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('site/css/components/bs-select.css') }}" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('site/include/rs-plugin/css/settings.css') }}" media="screen" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('site/include/rs-plugin/css/layers.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('site/include/rs-plugin/css/navigation.css') }}">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Members;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProfilePhotoRequest;
 use App\Models\Blood;
 use App\Models\City;
 use App\Models\Degree;
@@ -201,8 +202,7 @@ class MemberController extends Controller
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
             ->with('showCreatedOn', true)
-            ->with('checkProfileStatus', true)
-            ;
+            ->with('checkProfileStatus', true);
     }
 
     public function viewMemberShortListedProfiles(Request $request)
@@ -235,8 +235,7 @@ class MemberController extends Controller
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
             ->with('showCreatedOn', true)
-            ->with('checkProfileStatus', true)
-            ;
+            ->with('checkProfileStatus', true);
     }
 
     public function viewMemberIgnoredProfiles(Request $request)
@@ -269,8 +268,7 @@ class MemberController extends Controller
             ->with('profiles', $profiles)
             ->with('employeeIns', $employeeIns)
             ->with('showCreatedOn', true)
-            ->with('checkProfileStatus', true)
-            ;
+            ->with('checkProfileStatus', true);
     }
 
     public function viewInterestReceived(Request $request)
@@ -370,6 +368,28 @@ class MemberController extends Controller
         }
     }
 
+    public function updateProfilePhoto(UpdateProfilePhotoRequest $request)
+    {
+        DB::beginTransaction();
+        try {
+            $member = auth()->user();
+            $image = $request->has('profile_photo') ? $request->file('profile_photo') : null;
+            $member->storeImage($image, ['width' => 192, 'height' => 192]);
+            $member->save();
+
+            DB::commit();
+
+            return redirect()->route('member.profile')
+            ->with('status', 'Updated Successfully')
+            ->with('message', 'Profile Photo Udated Successfully');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            Log::error('Error Occurred in MemberController@updateProfilePhoto - ' . $e->getMessage());
+            return abort(500);
+        }
+    }
+
     public function addInterest(Request $request, $memberCode)
     {
         DB::beginTransaction();
@@ -444,11 +464,9 @@ class MemberController extends Controller
         $member->last_name = $request->last_name;
         $member->dob = $request->dob;
         $member->blood_id = $request->blood;
-        $member->gender = $request->gender;
         $member->religion = $request->religion;
         $member->mother_tongue_id = $request->mother_tongue;
         $member->email = $request->email;
-        $member->phone_no = $request->phone_no;
         $member->save();
 
         $image = $request->has('profile_photo') ? $request->file('profile_photo') : null;

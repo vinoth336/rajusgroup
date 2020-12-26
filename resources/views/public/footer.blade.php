@@ -33,6 +33,8 @@
 <script src="{{  asset('site/js/plugins.min.js') }}"></script>
 <script src="{{  asset('site/js/functions.js') }}"></script>
 <script src="{{  asset('site/js/components/bs-filestyle.js') }}"></script>
+<script src="{{  asset('site/js/components/bs-select.js') }}"></script>
+<script src="{{  asset('site/js/components/selectsplitter.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
