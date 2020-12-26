@@ -29,7 +29,7 @@ Route::group(['namespace' => 'Members'], function () {
         Route::get('/dashboard', 'MemberController@dashboard')->name('member.dashboard');
         Route::get('/profile', 'MemberController@profile')->name('member.profile');
         Route::put('/profile','MemberController@updateProfile');
-        Route::put('/profile/update_profile_photo','MemberController@updateProfilePhoto')->name('member.upload_profile_photo');
+        Route::post('/profile/update_profile_photo','MemberController@updateProfilePhoto')->name('member.upload_profile_photo');
         Route::post('/sendinterest/{memberCode}', 'MemberController@addInterest')->name('member.send_interest');
         Route::post('/addshortlist/{memberCode}', 'MemberController@addShortList')->name('member.add_profile_to_shortlist');
         Route::post('/addignore/{memberCode}', 'MemberController@addIgnore')->name('member.add_profile_to_ignore_list');

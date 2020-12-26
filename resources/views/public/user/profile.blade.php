@@ -37,7 +37,6 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
 <div class="modal fade upload_profile_photo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <form action="{{ route('member.upload_profile_photo') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
     <div class="modal-dialog modal-lg">
         <div class="modal-body">
             <div class="modal-content">
