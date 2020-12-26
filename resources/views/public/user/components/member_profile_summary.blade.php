@@ -38,11 +38,10 @@
             <div class="entry-meta">
                 @if($checkProfileStatus ?? false)
                     @php
-                    info("-------------------------------");
-                    //$temp = $profile->current_user_interest_received;
+                        //info("-------------------------------");
+                        //$temp = $profile->current_user_interest_received;
                     @endphp
                     @if($profile->current_user_interest_received()->count() ?? false)
-                        am inside 1st
                         @php
                             $profileInterestReceived = $profile->current_user_interest_received()->first();
                             $requestStatus = $profileInterestReceived->request_status ?? null;
@@ -91,7 +90,7 @@
                     @endif
 
                     @php
-                        info("------------- ENDED------------------");
+                        //info("------------- ENDED------------------");
                     @endphp
                 @endif
             </div>
