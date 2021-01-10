@@ -380,8 +380,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}"
                                                                     name="role" id="input-contact_person" type="text"
                                                                     placeholder="{{ __('Role Name') }}"
-                                                                    value="{{ old('role', $memberOccupation->role) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('role', $memberOccupation->role) }}" />
                                                                 @if ($errors->has('role'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-role">{{ $errors->first('role') }}</span>
@@ -400,8 +399,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('organisation_details') ? ' is-invalid' : '' }}"
                                                                     name="organisation_details" id="input-organisation_details" type="text"
                                                                     placeholder="{{ __('Organisation Detail') }}"
-                                                                    value="{{ old('organisation_details', $memberOccupation->organisation_details) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('organisation_details', $memberOccupation->organisation_details) }}" />
                                                                 @if ($errors->has('organisation_details'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-organisation_details">{{ $errors->first('organisation_details') }}</span>
@@ -419,8 +417,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('job_location') ? ' is-invalid' : '' }}"
                                                                     name="job_location" id="input-job_location" type="text"
                                                                     placeholder="{{ __('Job Location') }}"
-                                                                    value="{{ old('job_location', $memberOccupation->job_location) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('job_location', $memberOccupation->job_location) }}" />
                                                                 @if ($errors->has('job_location'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-job_location">{{ $errors->first('job_location') }}</span>
@@ -473,8 +470,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('parents') ? ' is-invalid' : '' }}"
                                                                     name="parents" id="input-parents" type="text"
                                                                     placeholder="{{ __('Parents') }}"
-                                                                    value="{{ old('parents', $memberFamily->parents) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('parents', $memberFamily->parents) }}" />
                                                                 @if ($errors->has('parents'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-parents">{{ $errors->first('parents') }}</span>
@@ -492,8 +488,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('brothers') ? ' is-invalid' : '' }}"
                                                                     name="brothers" id="input-contact_person" type="text"
                                                                     placeholder="{{ __('Brothers') }}"
-                                                                    value="{{ old('brothers', $memberFamily->brothers) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('brothers', $memberFamily->brothers) }}" />
                                                                 @if ($errors->has('brothers'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-brothers">{{ $errors->first('brothers') }}</span>
@@ -511,8 +506,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('sisters') ? ' is-invalid' : '' }}"
                                                                     name="sisters" id="input-sisters" type="text"
                                                                     placeholder="{{ __('Sisters') }}"
-                                                                    value="{{ old('sisters', $memberFamily->sisters) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('sisters', $memberFamily->sisters) }}" />
                                                                 @if ($errors->has('sisters'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-sisters">{{ $errors->first('sisters') }}</span>
@@ -536,8 +530,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}"
                                                                     name="address" id="input-address" type="text"
                                                                     placeholder="{{ __('Address') }}"
-                                                                    value="{{ old('address', $memberLocation->address) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('address', $memberLocation->address) }}" />
                                                                 @if ($errors->has('address'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-address">{{ $errors->first('address') }}</span>
@@ -595,8 +588,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('pincode') ? ' is-invalid' : '' }}"
                                                                     name="pincode" id="input-contact_person" type="text"
                                                                     placeholder="{{ __('Pin Code') }}"
-                                                                    value="{{ old('pincode', $memberLocation->pincode) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('pincode', $memberLocation->pincode) }}" />
                                                                 @if ($errors->has('pincode'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-pincode">{{ $errors->first('pincode') }}</span>
@@ -614,9 +606,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                 <input
                                                                     class="form-control{{ $errors->has('landmark') ? ' is-invalid' : '' }}"
                                                                     name="landmark" id="input-contact_person" type="text"
-                                                                    placeholder="{{ __('LandMark') }}"
-                                                                    value="{{ old('landmark', $memberLocation->landmark) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    placeholder="{{ __('LandMark') }}" />
                                                                 @if ($errors->has('landmark'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-landmark">{{ $errors->first('landmark') }}</span>
@@ -671,8 +661,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                     class="form-control{{ $errors->has('lagnam') ? ' is-invalid' : '' }}"
                                                                     name="lagnam" id="input-lagnam" type="text"
                                                                     placeholder="{{ __('Lagnam') }}"
-                                                                    value="{{ old('lagnam', $memberHoroscope->lagnam) }}" required="true"
-                                                                    aria-required="true" />
+                                                                    value="{{ old('lagnam', $memberHoroscope->lagnam) }}" />
                                                                 @if ($errors->has('lagnam'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-lagnam">{{ $errors->first('lagnam') }}</span>
