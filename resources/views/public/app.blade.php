@@ -16,6 +16,7 @@
 <meta name="twitter:creator" content="{{ __("@") }}{{ str_replace(" ", "",$siteInformation->site_name) }}">
 <meta name="twitter:site" content="{{ __("@") }}{{ str_replace(" ", "",$siteInformation->site_name) }}">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
 
