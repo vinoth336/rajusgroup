@@ -6,9 +6,6 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
 trait StoreImage {
-
-    public $resize = true;
-
     public $resize_width = 800;
 
     public $resize_height = 800;
@@ -38,7 +35,10 @@ trait StoreImage {
                 if ($this->resize) {
                     $img->resize(800,800);
                 }
-                $img->insert(public_path('site/images/watermark/rajus_watermark.png'), 'bottom-right');
+
+                if($this->addWaterMark) {
+                    $img->insert(public_path('site/images/watermark/rajus_watermark.png'), 'center');
+                }
                 $img->save($storagePath . "/" .$name);
             }
             $this->unlinkImage($this->getOriginal($this->fileParamName));
@@ -94,8 +94,7 @@ trait StoreImage {
         $img = Image::make($image->getRealPath())->resize($thumbnailSize['width'], $thumbnailSize['height'], function($constraint) {
             //$constraint->aspectRatio();
         });
-        $img->insert(public_path('site/images/watermark/rajus_watermark.png'), 'bottom-right');
-
+        $img->insert(public_path('site/images/watermark/rajus_watermark_thumbnail.png'), 'bottom-right');
 
         $img->save($thumbnailpath . '/' . $name);
     }

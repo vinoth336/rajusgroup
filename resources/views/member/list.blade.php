@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'member', 'titlePage' => __('Members')])
+@extends('layouts.app', ['activePage' => 'member', 'titlePage' => __('Members'), 'subPage' => 'viewMemberList'])
 
 @section('content')
     <div class="content">
@@ -10,6 +10,21 @@
                             <h4 class="card-title">{{ __('Members') }}</h4>
                         </div>
                         <div class="card-body ">
+                            <form style="display: none" method="post" action="">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-4" style="margin-bottom: 10px">
+                                        <label class="col-md-12">
+                                            Payment Status
+                                        </label>
+                                        <select class="col-md-6" name="payment_status">
+                                            <option value="">All</option>
+                                            <option value="1">Paid</option>
+                                            <option value="0">Not Paid</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
                             <div class="row">
                                 <div class="col-md-12 text-right" style="margin-bottom: 10px">
                                     <a href="{{ route('admin.member.add') }}" class="btn btn-primary text-right">
@@ -24,6 +39,10 @@
                                             <tr>
                                             <th>S NO</th>
                                             <th>Name</th>
+                                            <th>Phone No</th>
+                                            <th>Gender</th>
+                                            <th>Account Status</th>
+                                            <th>Payment Status</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                             </tr>
@@ -34,17 +53,21 @@
                                             <tr>
                                                 <td>{{ $sno++ }}</td>
                                                 <td>{{ $member->name }}</td>
+                                                <td>{{ $member->phone_no }}</td>
+                                                <td>{{ $member->genderName }}</td>
+                                                <td>{!! $member->accountStatusText !!}</td>
+                                                <td>{{ $member->paymentStatusText }}</td>
                                                 <td>{{ $member->created_at }}</td>
-                                                <td class="text-right">
-                                                    <a class="btn btn-sm btn-info" href="{{ route('admin.member.edit', $member->id) }}">
-                                                        <i class="material-icons">edit</i>
+                                                <td class="text-center">
+                                                    <a  class="" href="{{ route('admin.member.edit', $member->id) }}">
+                                                        <i style="font-size:18px" class="text-info material-icons">edit</i>
                                                     </a>
-                                                    <form method="POST" action="{{ route('admin.member.delete', $member->id) }}" >
+                                                    <form style="display: inline-block" method="POST" action="{{ route('admin.member.delete', $member->id) }}" >
                                                         @csrf
                                                         @method('delete')
-                                                        <button type="button" class="btn btn-sm btn-danger text-white delete-member" data-member-name="{{ $member->name }}" data-href="{{ route('admin.member.delete', $member->id) }}">
-                                                            <i class="material-icons">delete</i>
-                                                        </button>
+                                                        <a href="Javascript:void(0)" class="delete-member" data-member-name="{{ $member->name }}" data-href="{{ route('admin.member.delete', $member->id) }}">
+                                                            <i style="font-size:18px" class="text-warning material-icons">delete</i>
+                                                        </a>
                                                     </form>
                                                 </td>
                                             </tr>

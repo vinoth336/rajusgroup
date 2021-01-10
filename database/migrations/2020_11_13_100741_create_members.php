@@ -27,6 +27,7 @@ class CreateMembers extends Migration
             $table->string('email')->index('email');
             $table->string('religion');
             $table->string('mother_tongue_id');
+            $table->string('marital_status_id')->nullable();
             $table->string('phone_no');
             $table->boolean('email_verified_at')->nullable();
             $table->boolean('profile_verified')->nullable();

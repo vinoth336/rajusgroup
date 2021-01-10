@@ -1,5 +1,10 @@
 @extends('public.app')
 @section('content')
+    <style>
+        .profile_info {
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
 
     @php
     $profileEducations = $profile->educations;
@@ -7,6 +12,18 @@
     $profileFamily = $profile->family ?? optional();
     $profileLocation = $profile->location ?? optional();
     $profileHoroscope = $profile->horoscope ?? optional();
+    $isInterestAccepted = false;
+
+    $profileInterestReceived = $profile->current_user_interest_received()->first();
+    $responseStatus = $profileInterestReceived->request_status ?? null;
+
+    $profileInterestRequest = $profile->current_user_interested_profiles()
+    ->where('profile_status', PROFILE_INTEREST)->first();
+    $requestStatus = $profileInterestRequest->request_status ?? null;
+    if($responseStatus == PROFILE_REQUEST_APPROVED ||
+            $requestStatus == PROFILE_REQUEST_APPROVED) {
+        $isInterestAccepted = true;
+    }
     @endphp
     <section id="content">
         <div class="content-wrap">
@@ -111,13 +128,17 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                 <div class="row">
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div style="display: inline-block; padding-right:10px;">
-                            <img src="{{ $profile->secureProfilePhoto() }}" class="alignCenter img my-0 " alt="Avatar"
-                                        style="max-width: 120px;">
+                            @if($isInterestAccepted)
+                                <img src="{{ $profile->secureProfilePhoto() }}" alt="{{ $profile->fullName }}"  class="alignCenter img my-0 " style="max-width: 120px;">
+                            @else
+                                <img src="{{ $profile->getDefaultProfilePhoto() }}" alt="{{ $profile->fullName }}">
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-12 col-xs-12" style="padding-top:1.5rem">
                         <div class="heading-block border-0 mb-0" style="display:inline-block;padding-left:1.5rem">
                             <h4 class="alignLeft">{{ $profile->fullName }}</h4>
+                            <b >RG{{ $profile->member_code }}</b><br>
                             <span></span>
                         </div>
                     </div>
@@ -157,9 +178,9 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                             </li>
                         </ul>
 
-                        <div class="tab-container">
+                        <div class="tab-container profile_container">
                             <div class="tab-content" id="basic-details">
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                         <div class="col-md-6 form-group">
                                             <label class="col-sm-5 col-form-label">{{ __('First Name') }}</label>
                                             <div class="col-sm-12">
@@ -178,12 +199,12 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                         <div class="col-md-6 form-group">
-                                            <label class="col-sm-5 col-form-label">{{ __('Date Of Birth') }}</label>
+                                            <label class="col-sm-5 col-form-label">{{ __('Age') }}</label>
                                             <div class="col-sm-12">
                                                 <div class="form-group{{ $errors->has('dob') ? ' has-danger' : '' }}">
-                                                    {{ $profile->dob }}
+                                                    {{ $profile->age }}
                                                 </div>
                                             </div>
                                         </div>
@@ -200,7 +221,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                         <div class="col-md-6 form-group">
                                             <label class="col-sm-5 col-form-label">{{ __('Gender') }}</label>
                                             <div class="col-sm-12">
@@ -219,7 +240,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                         <div class="col-md-6 form-group">
                                             <label class="col-sm-5 col-form-label">{{ __('Mother Tuge') }}</label>
                                             <div class="col-sm-12">
@@ -233,24 +254,24 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                             <label class="col-sm-5 col-form-label">{{ __('Email') }}</label>
                                             <div class="col-sm-12">
                                                 <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                                                    {{ $profile->email }}
+                                                    {{ canShowContent($isInterestAccepted, $profile->email) }}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                         <div class="col-md-6 form-group">
                                             <label class="col-sm-5 col-form-label">{{ __('Mobile No') }}</label>
                                             <div class="col-sm-12">
                                                 <div class="form-group{{ $errors->has('phone_no') ? ' has-danger' : '' }}">
-                                                    {{ $profile->phone_no }}
+                                                    {{ canShowContent($isInterestAccepted, $profile->phone_no) }}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                             </div>
                             <div class="tab-content" id="education-and-occupation-details">
-                                <div class="form-row">
+                                <div class="form-row profile_info">
                                     <div class="col-md-12 form-group">
                                         <label class="col-sm-5 col-form-label">{{ __('Qualifications') }}</label>
                                         <div class="col-sm-12">
@@ -266,7 +287,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div class="form-row profile_info">
                                     <div class="col-md-6 form-group">
                                         <label class="col-sm-5 col-form-label">{{ __('Employee In') }}</label>
                                         <div class="col-sm-12">
@@ -290,14 +311,14 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div class="form-row profile_info">
                                     <div class="col-md-6 form-group">
                                         <label
                                             class="col-sm-5 col-form-label">{{ __('Organisation Detail') }}</label>
                                         <div class="col-sm-12">
                                             <div
                                                 class="form-group{{ $errors->has('organisation_details') ? ' has-danger' : '' }}">
-                                                    {{ $profileOccupation->organisation_details }}
+                                                    {{ canShowContent($isInterestAccepted, $profileOccupation->organisation_details) }}
                                             </div>
                                         </div>
                                     </div>
@@ -306,14 +327,14 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                         <div class="col-sm-12">
                                             <div
                                                 class="form-group{{ $errors->has('job_location') ? ' has-danger' : '' }}">
-                                                    {{ $profileOccupation->job_location }}
+                                                    {{ canShowContent($isInterestAccepted, $profileOccupation->job_location) }}
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
 
-                                <div class="form-row">
+                                <div class="form-row profile_info">
                                     <div class="col-md-6 form-group">
                                         <label class="col-sm-5 col-form-label">{{ __('Annual Income') }}</label>
                                         <div class="col-sm-12">
@@ -335,7 +356,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                             <div class="tab-content" id="family-location-details">
                                     <div class="row form-group">
                                         <div class="col-sm-12">
-                                            <div class="form-row">
+                                            <div class="form-row profile_info">
                                                 <div class="col-md-6 form-group">
                                                     <label class="col-sm-5 col-form-label">{{ __('Family Type') }}</label>
                                                     <div class="col-sm-12">
@@ -362,7 +383,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-row">
+                                            <div class="form-row profile_info">
                                                 <div class="col-md-6 form-group">
                                                     <label class="col-sm-5 col-form-label">{{ __('No Of Brothers') }}</label>
                                                     <div class="col-sm-12">
@@ -385,18 +406,18 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                         <div class="col-md-12 form-group">
                                             <h4>Location Details</h4>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                             <div class="col-md-6 form-group">
                                                 <label class="col-sm-5 col-form-label">{{ __('Address') }}</label>
                                                 <div class="col-sm-12">
                                                     <div
                                                         class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
-                                                        {{ $profileLocation->address }}
+                                                            {{ canShowContent($isInterestAccepted, $profileLocation->address) }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -414,7 +435,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                 </div>
                                             </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                             <div class="col-md-6 form-group">
                                                 <label class="col-sm-5 col-form-label">{{ __('City') }}</label>
                                                 <div class="col-sm-12">
@@ -433,26 +454,26 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                 <div class="col-sm-12">
                                                     <div
                                                         class="form-group{{ $errors->has('pincode') ? ' has-danger' : '' }}">
-                                                       {{ $profileLocation->pincode }}
+                                                            {{ canShowContent($isInterestAccepted, $profileLocation->pincode) }}
                                                     </div>
                                                 </div>
 
                                             </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                             <div class="col-md-6 form-group">
                                                 <label class="col-sm-5 col-form-label">{{ __('LandMark') }}</label>
                                                 <div class="col-sm-12">
                                                     <div
                                                         class="form-group{{ $errors->has('landmark') ? ' has-danger' : '' }}">
-                                                        {{ $profileLocation->landmark }}
+                                                        {{ canShowContent($isInterestAccepted, $profileLocation->landmark) }}
                                                     </div>
                                                 </div>
                                             </div>
                                     </div>
                             </div>
                             <div class="tab-content" id="horoscope-details">
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                             <div class="col-md-6 form-group">
                                                 <label class="col-sm-5 col-form-label">{{ __('Rasi') }}</label>
                                                 <div class="col-sm-12">
@@ -476,7 +497,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                 </div>
                                             </div>
                                     </div>
-                                    <div class="form-row">
+                                    <div class="form-row profile_info">
                                             <div class="col-md-6 form-group">
                                                 <label class="col-sm-5 col-form-label">{{ __('Star') }}</label>
                                                 <div class="col-sm-12">
@@ -494,12 +515,17 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                 <label class="col-sm-5 col-form-label">{{ __('Horoscope Images') }}</label>
                                                 <div class="col-sm-12">
                                                     <div class="fileinput-preview fileinput-exists thumbnail">
-                                                            @if (!$profileHoroscope->horoscope_image)
-                                                                <p class="text-center"> Horoscope Not Uploaded</p>
+
+                                                            @if( canShowContent($isInterestAccepted) )
+                                                                @if (!$profileHoroscope->horoscope_image)
+                                                                        <p class="text-center"> Horoscope Not Uploaded</p>
+                                                                @else
+                                                                        <a href="{{ asset('site/images/horoscope/' . $profileHoroscope->horoscope_image ) }}" target="_blank">
+                                                                            View Horoscope
+                                                                        </a>
+                                                                @endif
                                                             @else
-                                                                <a href="{{ asset('site/images/horoscope/' . $profileHoroscope->horoscope_image ) }}" target="_blank">
-                                                                    View Horoscope
-                                                                </a>
+                                                                    Need Approval
                                                             @endif
                                                     </div>
                                                 </div>

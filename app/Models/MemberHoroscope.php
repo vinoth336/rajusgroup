@@ -24,6 +24,8 @@ class MemberHoroscope extends Model
 
     public $resize = true;
 
+    public $addWaterMark = true;
+
     public function star()
     {
         return $this->belongsTo(Star::class, 'star_id', 'id');

@@ -1,11 +1,10 @@
-<div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
-  <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+@php
+ $subPage = $subPage ?? null;
+@endphp
 
-      Tip 2: you can also add an image using data-image tag
-  -->
+<div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
   <div class="logo">
-    <a href="https://creative-tim.com/" class="simple-text logo-normal">
+    <a href="{{ route('home') }}" class="simple-text logo-normal">
       {{ __('Rajus Group') }}
     </a>
   </div>
@@ -17,33 +16,51 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'member' ? ' active' : '' }}">
+      <li class="nav-item {{ $activePage == 'member' ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true" href="#">
           <i class="material-icons">content_paste</i>
             <p>{{ __('Member') }}</p>
         </a>
         <div class="collapse show" id="laravelExample">
             <ul class="nav">
-                <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
+                <li class="nav-item {{ $activePage == 'profile' && $titlePage == 'Members' ? ' active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.member.index') }}">
                         <span class="sidebar-mini"> UP </span>
                         <span class="sidebar-normal">{{ __('View Members List') }} </span>
                     </a>
                 </li>
-              <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
+              <li class="nav-item {{ $activePage == 'profile' && $titlePage == 'Create Member' ? ' active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.member.add') }}">
                   <span class="sidebar-mini"> UP </span>
                   <span class="sidebar-normal">{{ __('Add Profile') }} </span>
                 </a>
               </li>
-              <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                <a class="nav-link" href="{{ route('user.index') }}">
-                  <span class="sidebar-mini"> UM </span>
-                  <span class="sidebar-normal"> {{ __('Add User') }} </span>
-                </a>
-              </li>
             </ul>
           </div>
+      </li>
+      <li class="nav-item{{ $activePage == 'site_information' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('site_information.index') }}">
+          <i class="material-icons">content_paste</i>
+            <p>{{ __('Site Information') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'testimonials' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('testimonials.index') }}">
+          <i class="material-icons">content_paste</i>
+            <p>{{ __('Success Stories') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'enquiries' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('enquiries.index') }}">
+          <i class="material-icons">content_paste</i>
+            <p>{{ __('Enquiries') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'faqs' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('faqs.index') }}">
+          <i class="material-icons">content_paste</i>
+            <p>{{ __('Faq\'s') }}</p>
+        </a>
       </li>
 
     </ul>

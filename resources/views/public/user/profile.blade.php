@@ -23,6 +23,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                     <div class="col-md-9 col-sm-12 col-xs-12" style="padding-top:1.5rem">
                         <div class="heading-block border-0 mb-0" style="display:inline-block;padding-left:1.5rem">
                             <h4 class="alignLeft">{{ $member->fullName }}</h4>
+                            <b >RG{{ $member->member_code }}</b><br>
                             <a href="#" class="text-dark" data-toggle="modal" data-target=".upload_profile_photo">
                                 <i class="icon-edit2"></i>
                                 Edit Profile Photo
@@ -269,6 +270,18 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                             @endif
 
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label class="col-sm-5 col-form-label">{{ __('Marital Status') }}</label>
+                                                    <div class="col-sm-12">
+                                                            <select class="selectpicker select form-control" name="marital_status" id="input-service" type="text">
+                                                                <option value=''>Select Marital Status</option>
+                                                                @foreach($maritalStatus as $status)
+                                                                    <option value="{{ $status->slug }}" @if(old('marital_status', optional($member->marital_status)->slug) == $status->slug))
+                                                                    selected @endif >{{ $status->name }}</option>
+                                                                @endforeach
+                                                            </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -689,7 +702,31 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                         </div>
                                                     </div>
                                             </div>
+                                            <div class="form-row">
+                                                <div class="col-md-6 form-group">
+                                                    <label class="col-sm-5 col-form-label">{{ __('Dhosam') }}</label>
+                                                    <div class="col-sm-12">
+                                                        <div
+                                                            class="form-group{{ $errors->has('rasi') ? ' has-danger' : '' }}">
+
+                                                            <select class="selectpicker select form-control" name="dhosam" id="input-dhosam" type="text">
+                                                                <option value=''>Select Dhosam Status</option>
+                                                                @foreach($dhosams as $dhosam)
+                                                                    <option value="{{ $dhosam->slug }}" @if(old('dhosam', optional($member->dhosam)->slug) == $dhosam->slug))
+                                                                    selected @endif >{{ $dhosam->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @if ($errors->has('dhosam'))
+                                                                <span id="name-error" class="error text-danger"
+                                                                    for="input-dhosam">{{ $errors->first('dhosam') }}</span>
+                                                            @endif
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
+
                                     <div class="row form-group " >
                                         <div class="ml-auto">
                                             <a href="{{ route('member.dashboard') }}" class="btn btn-danger">{{ __('Cancel') }}</a>

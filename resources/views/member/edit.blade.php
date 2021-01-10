@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'member', 'titlePage' => __('Create Member')])
+@extends('layouts.app', ['activePage' => 'member', 'titlePage' => __('Create Member'), 'subPage' => 'viewMemberList'])
 
 @section('content')
 @php
@@ -94,7 +94,14 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                 for="input-contact_person">{{ $errors->first('profile_photo') }}</span>
                                                     @endif
                                                 </div>
-
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-2 col-form-label">{{ __('Member Code') }}</label>
+                                                <div class="col-sm-7">
+                                                    <div class="form-group">
+                                                        <input class="form-control" type="text" disabled value="{{ $member->member_code }}" />
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <label class="col-sm-2 col-form-label">{{ __('First Name') }}</label>
@@ -152,7 +159,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                 <label class="col-sm-2 col-form-label">{{ __('Blood Group') }}</label>
                                                 <div class="col-sm-7">
                                                     <div class="form-group{{ $errors->has('blood') ? ' has-danger' : '' }}">
-                                                        <select class="form-control {{ $errors->has('blood') ? ' is-invalid' : '' }}" name="blood" required>
+                                                        <select class="selectpicker select form-control {{ $errors->has('blood') ? ' is-invalid' : '' }}" name="blood" required>
                                                             @foreach ($bloodGroup as $blood)
                                                                 <option value="{{ $blood->id }}"
                                                                     @if($blood->id == old('blood', $member->blood->id)) selected @endif>
@@ -171,7 +178,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                 <label class="col-sm-2 col-form-label">{{ __('Gender') }}</label>
                                                 <div class="col-sm-7">
                                                     <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}">
-                                                        <select class="form-control  {{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" required>
+                                                        <select class="selectpicker select form-control  {{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" required>
                                                             <option value="1" @if(old('gender', $member->gender) == 1) selected @endif>Male</option>
                                                             <option value="2" @if(old('gender', $member->gender) == 2) selected @endif>Female</option>
                                                         </select>
@@ -200,7 +207,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                 <label class="col-sm-2 col-form-label">{{ __('Mother Tuge') }}</label>
                                                 <div class="col-sm-7">
                                                     <div class="form-group{{ $errors->has('mother_tongue') ? ' has-danger' : '' }}">
-                                                        <select class="form-control  {{ $errors->has('mother_tongue') ? ' is-invalid' : '' }}" name="mother_tongue" required>
+                                                        <select class="selectpicker select form-control  {{ $errors->has('mother_tongue') ? ' is-invalid' : '' }}" name="mother_tongue" required>
                                                             <option value="1" @if(old('mother_tongue', $member->mother_tongue->id) == 1) selected @endif>Tamil</option>
                                                             <option value="2" @if(old('mother_tongue', $member->mother_tongue->id) == 2) selected @endif>Telugu</option>
                                                         </select>
@@ -246,6 +253,57 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                <label class="col-sm-2 col-form-label">{{ __('Marital Status') }}</label>
+                                                <div class="col-sm-7">
+                                                    <div class="form-group{{ $errors->has('phone_no') ? ' has-danger' : '' }}">
+                                                        <select class="selectpicker select form-control" name="marital_status" id="input-service" type="text">
+                                                            <option value=''>Select Marital Status</option>
+                                                            @foreach($maritalStatus as $status)
+                                                                <option value="{{ $status->slug }}" @if(old('marital_status', optional($member->marital_status)->slug) == $status->slug))
+                                                                selected @endif >{{ $status->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @if ($errors->has('marital_status'))
+                                                            <span id="name-error" class="error text-danger"
+                                                                for="input-marital_status">{{ $errors->first('marital_status') }}</span>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-2 col-form-label">{{ __('Account Status') }}</label>
+                                                <div class="col-sm-7">
+                                                    <div class="form-group{{ $errors->has('account_status') ? ' has-danger' : '' }}">
+                                                        <select class="selectpicker select form-control  {{ $errors->has('account_status') ? ' is-invalid' : '' }}" name="account_status" required>
+                                                            <option value="{{ MEMBER_ACCOUNT_STATUS_ACTIVE }}" @if(old('account_status', $member->account_status) == MEMBER_ACCOUNT_STATUS_ACTIVE) selected @endif>Active</option>
+                                                            <option value="{{ MEMBER_ACCOUNT_STATUS_DEACTIVATE }}" @if(old('account_status', $member->account_status) == MEMBER_ACCOUNT_STATUS_DEACTIVATE) selected @endif>DeActive</option>
+                                                        </select>
+                                                        @if ($errors->has('account_status'))
+                                                            <span id="name-error" class="error text-danger"
+                                                                for="input-account_status">{{ $errors->first('account_status') }}</span>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-sm-2 col-form-label">{{ __('Payment Status') }}</label>
+                                                <div class="col-sm-7">
+                                                    <div class="form-group{{ $errors->has('payment_status') ? ' has-danger' : '' }}">
+                                                        <select class="selectpicker select form-control  {{ $errors->has('payment_status') ? ' is-invalid' : '' }}" name="payment_status" required>
+                                                            <option value="{{ PAYMENT_STATUS_PAID }}" @if(old('payment_status', $member->payment_status) == PAYMENT_STATUS_PAID) selected @endif>Paid</option>
+                                                            <option value="{{ PAYMENT_STATUS_NOT_PAID }}" @if(old('payment_status', $member->payment_status) == PAYMENT_STATUS_NOT_PAID) selected @endif>Not Paid</option>
+                                                        </select>
+                                                        @if ($errors->has('payment_status'))
+                                                            <span id="name-error" class="error text-danger"
+                                                                for="input-payment_status">{{ $errors->first('payment_status') }}</span>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <label class="col-sm-2 col-form-label">{{ __('UserName') }}</label>
                                                 <div class="col-sm-7">
                                                     <div class="form-group{{ $errors->has('username') ? ' has-danger' : '' }}">
@@ -281,86 +339,32 @@ $memberHoroscope = $member->horoscope ?? optional();
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <h3>Education</h3>
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>
-                                                                    Education
-                                                                </th>
-                                                                <th>
-                                                                    Course
-                                                                </th>
-                                                                <th>
-                                                                    Insitiute
-                                                                </th>
-                                                                <th>
-                                                                    Passed Out
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="education_container">
-                                                            @php $index=0; @endphp
-                                                            @forelse($memberEducations as $education)
-                                                            <tr>
-                                                                <td>
-                                                                    <select class="" name="degree[]" id="input-service" type="text" >
-                                                                        <option value=''>Select Degree</option>
-                                                                        @foreach($degrees as $degree)
-                                                                            <option value="{{ $degree->id }}" @if(old('degree.' . $index, $education->degree->id) == $degree->id ) selected @endif >{{ $degree->name }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control" name="course[]" value="{{ old('course.' . $index, $education->course) }}">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control" name="institute[]" value="{{ old('institute.'. $index, $education->institute) }}">
-                                                                </td>
-                                                                <td>
-                                                                    <select class="form-control" name="passed_out[]">
-                                                                        <option value="">Passed Out</option>
-                                                                        @foreach(passedOut() as $passedOut)
-                                                                            <option value="{{ $passedOut }}" @if(old('passed_out.'. $index, $education->passed_out) == $passedOut ) selected @endif>{{ $passedOut }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" class="btn btn-danger btn-sm remove_row" ><i class="material-icons">close</i></button>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td>
-                                                                    <select class="" name="degree[]" id="input-service" type="text" >
-                                                                        <option value=''>Select Degree</option>
-                                                                        @foreach($degrees as $degree)
-                                                                            <option value="{{ $degree->id }}" @if(old('degree.0') == $degree->id ) selected @endif >{{ $degree->name }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control" name="course[]" value="{{ old('course.0') }}">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control" name="institute[]" value="{{ old('institute.0') }}">
-                                                                </td>
-                                                                <td>
-                                                                    <select class="form-control" name="passed_out[]">
-                                                                        <option value="">Passed Out</option>
-                                                                        @foreach(passedOut() as $passedOut)
-                                                                            <option value="{{ $passedOut }}" @if(old('passed_out.0') == $passedOut ) selected @endif>{{ $passedOut }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" class="btn btn-danger btn-sm remove_row" ><i class="material-icons">close</i></button>
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
-                                                    </table>
-                                                    <div class="text-right">
-                                                        <button type="button" class="btn btn-primary add_degree_row">Add More</button>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="row">
+                                                                <label class="col-sm-2 col-form-label">{{ __('Degree') }}</label>
+                                                                <div class="col-sm-7">
+                                                                    <div class="form-group{{ $errors->has('degree.0') ? ' has-danger' : '' }}">
+                                                                        @php
+                                                                            $memberDegrees = $memberEducations->pluck('degree_id')->toArray();
+                                                                        @endphp
+                                                                        <select class="selectpicker select form-control" name="degree[]" id="input-degree" multiple>
+                                                                            <option value=''>Select Degree</option>
+                                                                                @foreach($degrees as $degree)
+                                                                                    <option value="{{ $degree->id }}" @if(old('degree.0') == $degree->id
+                                                                                        || in_array($degree->id, $memberDegrees)))
+                                                                                        selected @endif>{{ $degree->name }}</option>
+                                                                                @endforeach
+                                                                        </select>
+                                                                        @if ($errors->has('degree.0'))
+                                                                            <span id="name-error" class="error text-danger"
+                                                                                for="input-degree">{{ $errors->first('degree.0') }}</span>
+                                                                        @endif
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -447,7 +451,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                                 @php
                                                                     $memberFamilyType = $memberFamily->family_type ?? optional();
                                                                 @endphp
-                                                                <select class="" name="family_type">
+                                                                <select class="selectpicker select form-control" name="family_type">
                                                                     <option value=''>Select Family Type</option>
                                                                     @foreach($familyType as $type)
                                                                         <option value="{{ $type->id }}" @if(old('type', $memberFamilyType->id) == $type->id ) selected @endif >{{ $type->name }}</option>
@@ -547,7 +551,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                         <div class="col-sm-7">
                                                             <div
                                                                 class="form-group{{ $errors->has('State') ? ' has-danger' : '' }}">
-                                                                <select class="" name="state" >
+                                                                <select class="selectpicker select form-control" name="state" >
                                                                     <option value="">Select City</option>
                                                                     @foreach ($states as $state )
                                                                         <option value="{{ $state->id }}" @if(old('state', $memberLocation->state_id) == $state->id) selected @endif>
@@ -567,7 +571,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                         <div class="col-sm-7">
                                                             <div
                                                                 class="form-group{{ $errors->has('last_name') ? ' has-danger' : '' }}">
-                                                                <select class="" name="city" >
+                                                                <select class="selectpicker select form-control" name="city" >
                                                                     <option value="">Select City</option>
                                                                     @foreach ($cities as $city )
                                                                         <option value="{{ $city->id }}" @if(old('city', $memberLocation->city_id) == $city->id) selected @endif>
@@ -642,7 +646,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                         <div class="col-sm-7">
                                                             <div
                                                                 class="form-group{{ $errors->has('rasi') ? ' has-danger' : '' }}">
-                                                                <select class="" name="rasi" >
+                                                                <select class="selectpicker select form-control" name="rasi" >
                                                                     <option value="">Select Rasi</option>
                                                                     @foreach ($rasies as $rasi )
                                                                         <option value="{{ $rasi->id }}" @if(old('rasi', $memberHoroscope->rasi_id) == $rasi->id) selected @endif>
@@ -682,7 +686,7 @@ $memberHoroscope = $member->horoscope ?? optional();
                                                         <div class="col-sm-7">
                                                             <div
                                                                 class="form-group{{ $errors->has('star') ? ' has-danger' : '' }}">
-                                                                <select class="" name="star" >
+                                                                <select class="selectpicker select form-control" name="star" >
                                                                     <option value="">Select Rasi</option>
                                                                     @foreach ($stars as $star )
                                                                         <option value="{{ $star->id }}" @if(old('star', $memberHoroscope->star_id) == $star->id) selected @endif>
@@ -763,48 +767,6 @@ $memberHoroscope = $member->horoscope ?? optional();
                 $('#' + tab).removeClass('hide');
                 $('#' + tab).addClass('active');
 
-            });
-
-            var table_row =`<tr>
-                                <td>
-                                    <select class="" name="degree[]" id="input-service" type="text" >
-                                        <option value="">Select Degree</option>
-                                        @foreach($degrees as $degree)
-                                            <option value="{{ $degree->id }}">{{ $degree->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <input class="form-control" name="course[]" required>
-                                </td>
-                                <td>
-                                    <input class="form-control" name="institute[]" required>
-                                </td>
-                                <td>
-                                    <select class="form-control" name="passed_out[]" required>
-                                            <option value="">Passed Out</option>
-                                        @foreach(passedOut() as $passedOut)
-                                            <option value="{{ $passedOut }}">{{ $passedOut }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm remove_row" ><i class="material-icons">close</i></button>
-                                </td>
-                            </tr>`;
-
-
-            $(".add_degree_row").on('click', function() {
-                var table = $("#education_container");
-                table.append(table_row);
-            });
-
-            $("#education_container").on('click', '.remove_row', function() {
-                if($("#education_container").find('tr').length <= 1) {
-                    alert('Can\'t Remove It');
-                    return false;
-                }
-                $(this).closest('tr').remove();
             });
 
             $(".switch-tab").on('click', function(e) {

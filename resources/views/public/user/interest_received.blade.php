@@ -43,4 +43,6 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript" src="{{ asset('site/js/matrimony_member.js') }}"></script>
+
 @endsection

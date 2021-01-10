@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\StoreImage;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Jamesh\Uuid\HasUuid;
@@ -55,7 +56,9 @@ class Member extends Authenticatable
 
     protected $imageFieldName = 'profile_photo';
 
-    public $resize = true;
+    protected $resize = true;
+
+    public $addWaterMark = true;
 
     protected $casts = ['dob' => 'date'];
 
@@ -68,6 +71,11 @@ class Member extends Authenticatable
                 $model->id = (string) Str::uuid();
             }
         });
+
+        static::addGlobalScope('active_account_only', function (Builder $builder) {
+            $builder->where('account_status', '=', MEMBER_ACCOUNT_STATUS_ACTIVE);
+        });
+
     }
 
     public function blood()
@@ -105,10 +113,20 @@ class Member extends Authenticatable
         return $this->hasOne(MemberHoroscope::class, 'member_id', 'id');
     }
 
+    public function marital_status()
+    {
+        return $this->belongsTo(MaritalStatus::class, 'marital_status_id', 'id');
+    }
+
+    public function dhosam()
+    {
+        return $this->belongsTo(Dhosam::class, 'dhosam_id', 'id');
+    }
+
 
     public function interest_received()
     {
-        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id')->where('profile_status', PROFILE_INTEREST);
+        return $this->hasMany(MemberInterestedProfile::class, 'profile_member_id', 'id');
     }
 
     public function interest_sent_profiles()
@@ -162,18 +180,52 @@ class Member extends Authenticatable
         return Carbon::parse($this->attributes['dob'])->age;
     }
 
+    public function getGenderNameAttribute()
+    {
+        return $this->attributes['gender'] == MALE ? 'Male' : 'Female';
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return date("d-m-Y", strtotime($this->attributes['created_at']));
+    }
+
     public function secureProfilePhoto()
     {
         if ($this->attributes['profile_photo']) {
             return asset('site/images/profile_photo/thumbnails/' . $this->profile_photo);
         } else {
-            if ($this->gender == MALE) {
-                return asset('site/images/site_images/male_default.jpg');
-            } else {
-                return asset('site/images/site_images/female_default.jpg');
-            }
+            return $this->getDefaultProfilePhoto();
         }
     }
+
+    public function getDefaultProfilePhoto()
+    {
+        if ($this->gender == MALE) {
+            return asset('site/images/site_images/male_default.jpg');
+        } else {
+            return asset('site/images/site_images/female_default.jpg');
+        }
+    }
+
+    public function getPaymentStatusTextAttribute()
+    {
+        if ($this->attributes['payment_status'] == PAYMENT_STATUS_PAID) {
+            return 'Paid';
+        } elseif($this->attributes['payment_status'] == PAYMENT_STATUS_NOT_PAID) {
+            return 'Not Paid';
+        }
+    }
+
+    public function getAccountStatusTextAttribute()
+    {
+        if ($this->attributes['account_status'] == MEMBER_ACCOUNT_STATUS_ACTIVE) {
+            return 'Active';
+        } elseif($this->attributes['account_status'] == MEMBER_ACCOUNT_STATUS_DEACTIVATE) {
+            return '<b class="text-danger">DeActivated</b>';
+        }
+    }
+
 
     public function checkIsUserCompletedIsProfileEntry()
     {
@@ -269,7 +321,8 @@ class Member extends Authenticatable
     {
         return $this->hasOne(MemberInterestedProfile::class, 'member_id', 'id')
         ->where('profile_member_id', auth()->user()->id)
-        ->where('profile_status', PROFILE_INTEREST);
+        ->where('profile_status', PROFILE_INTEREST)
+        ;
     }
 
     public function current_user_interested_profiles()

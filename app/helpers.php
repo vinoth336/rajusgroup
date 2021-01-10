@@ -10,7 +10,7 @@ function createText($field)
     exit;
     $errors = $field->errors;
     $input = '<input class="form-control' . $errors->has($field->name) ? ' is-invalid' : '' . '
-    name="'. $field->name .'" id="input-' . $field->name . '" type="text"
+    name="' . $field->name . '" id="input-' . $field->name . '" type="text"
     placeholder="' . $field->label . '" value="' . old($field->name, $field->value) . '" required="true"
     aria-required="true" />';
 
@@ -28,7 +28,7 @@ function passedOut()
     $from = 2000;
     $to = date("Y");
     $passedOut = [];
-    while($from <= $to) {
+    while ($from <= $to) {
         $passedOut[] = $from++;
     }
 
@@ -41,7 +41,8 @@ function familyType()
 }
 
 
-function generateMemberCodeNumber() {
+function generateMemberCodeNumber()
+{
     $code = mt_rand(1000000000, 9999999999); // better than rand()
 
     // call the same function if the MemberCode exists already
@@ -53,8 +54,19 @@ function generateMemberCodeNumber() {
     return $code;
 }
 
-function MemberCodeNumberExists($code) {
+function MemberCodeNumberExists($code)
+{
     // query the database and return a boolean
     // for instance, it might look like this in Laravel
     return Member::whereMemberCode($code)->exists();
+}
+
+function canShowContent($interestStatus, $content = null)
+{
+    if($content) {
+        return $interestStatus ? $content : 'Need Approval';
+    } else {
+        return $interestStatus;
+    }
+
 }

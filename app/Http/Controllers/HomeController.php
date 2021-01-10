@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
+use App\Models\MemberRegistrationRequest;
+
 class HomeController extends Controller
 {
     /**
@@ -21,6 +24,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $totalMembers = Member::count();
+        $maleMembersCount = Member::where('gender', MALE)->count();
+        $femaleMembersCount = Member::where('gender', MALE)->count();
+        $memberRegisterationCount = MemberRegistrationRequest::count();
+
+        return view('dashboard')
+            ->with('totalMembers', $totalMembers)
+            ->with('maleMembersCount', $maleMembersCount)
+            ->with('femaleMembersCount', $femaleMembersCount)
+            ->with('memberRegisterationCount', $memberRegisterationCount)
+        ;
     }
 }

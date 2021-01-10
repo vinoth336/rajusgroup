@@ -4,22 +4,25 @@
             <div class="fancy-title title-border" style="margin-bottom: 5px;margin-top:1rem !important">
                 <h3>Filter</h3>
             </div>
-            <form>
+            <form method="post" action="{{ route('member.dashboard') }}">
+                @csrf
                 <div class="row form-group">
                     <label class="col-sm-12 col-form-label font-normal">{{ __('Age') }}</label>
                     <div class="col-sm-5">
                        <select class="selectpicker form-control" name="from_age">
-                           <option value="22" selected>22</option>
-                           <option value="23" selected>23</option>
+                           @for ($i = 22; $i <= 40; $i++)
+                                <option value="{{ $i }}" @if($i == old('from_age', request()->input('from_age') ?? 22)) selected @endif)>{{ $i }}</option>
+                           @endfor
                        </select>
                     </div>
                     <div class="col-sm-2">
                         To
                     </div>
                     <div class="col-sm-5">
-                        <select class="selectpicker form-control" name="from_age">
-                            <option value="22" selected>22</option>
-                            <option value="23" selected>23</option>
+                        <select class="selectpicker form-control" name="to_age">
+                            @for ($i = 22; $i <= 40; $i++)
+                                <option value="{{ $i }}" @if($i == old('to_age', request()->input('to_age') ?? 25)) selected @endif)>{{ $i }}</option>
+                           @endfor
                         </select>
                      </div>
                 </div>
@@ -27,9 +30,14 @@
                     <div class="col-sm-6" style="padding-left: 0px">
                     <label class="col-sm-12 col-form-label font-normal">{{ __('Rasi') }}</label>
                     <div class="col-sm-12">
-                        <select class="selectpicker form-control" name="from_age">
+                        <select class="selectpicker form-control" name="rasies[]" multiple>
+                            @php
+                                $selectedRasies = request()->has('rasies') ? request()->input('rasies') : [];
+                            @endphp
                            @foreach ($rasies as $rasi )
-                               <option value="{{ $rasi->id }}">{{ $rasi->name }}</option>
+                               <option value="{{ $rasi->id }}" @if(in_array($rasi->id, old('rasies', $selectedRasies))) selected @endif>
+                               {{ $rasi->name }}
+                               </option>
                            @endforeach
                         </select>
                      </div>
@@ -37,9 +45,12 @@
                     <div class="col-sm-6"  style="padding-right: 0px">
                         <label class="col-sm-12 col-form-label font-normal">{{ __('Star') }}</label>
                     <div class="col-sm-12">
-                        <select class="selectpicker form-control" name="stars">
+                        <select class="selectpicker form-control" name="stars[]" multiple>
+                            @php
+                                $selectedStars = request()->has('stars') ? request()->input('stars') : [];
+                            @endphp
                             @foreach ($stars as $star )
-                                <option value="{{ $star->id }}">
+                                <option value="{{ $star->id }}" @if(in_array($star->id, old('stars', $selectedStars))) selected @endif>
                                     {{ $star->name }}
                                 </option>
                             @endforeach
@@ -49,35 +60,54 @@
                 </div>
 
                 <div class="row form-group">
-                    <label class="col-sm-12 col-form-label font-normal">{{ __('Lagnam') }}</label>
+                    <label class="col-sm-12 col-form-label font-normal">{{ __('Dhosam') }}</label>
                     <div class="col-sm-12">
-                        <select class="selectpicker form-control" name="lagnam">
-                            <option value="22" selected>Pudan</option>
-                            <option value="23" selected>Sevai</option>
+                        <select class="selectpicker form-control" name="dhosams[]" multiple>
+                            @php
+                                $selectedDhosam = request()->has('dhosams') ? request()->input('dhosams') : [1];
+                            @endphp
+                            @foreach ($dhosams as $dhosam )
+                                <option value="{{ $dhosam->id }}" @if(in_array($dhosam->id, old('dhosams', $selectedDhosam))) selected @endif>
+                                    {{ $dhosam->name }}
+                                </option>
+                            @endforeach
                         </select>
                      </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-12 col-form-label font-normal">{{ __('Mother Tuge') }}</label>
                     <div class="col-sm-12">
-                        <select class="selectpicker form-control" name="mother_tongue">
-                            <option value="1" >Tamil</option>
-                            <option value="2" >Telugu</option>
+                        <select class="selectpicker form-control" name="mother_tongues[]" multiple>
+                            @php
+                                $selectedMotherTongues = request()->has('mother_tongues') ? request()->input('mother_tongues') : [1];
+                            @endphp
+                            <option value="1" @if(in_array(1, $selectedMotherTongues)) selected @endif>
+                                Tamil
+                            </option>
+                            <option value="2" @if(in_array(2, $selectedMotherTongues)) selected @endif>
+                                Telugu
+                            </option>
                         </select>
                      </div>
                 </div>
                 <div class="row form-group">
                     <label class="col-sm-12 col-form-label font-normal">{{ __('Marriedl Status') }}</label>
-                    <div class="col-sm-8">
-                        <select class="selectpicker form-control" name="from_age">
-                            <option value="1" >UnMarried</option>
-                            <option value="2" >Married</option>
-                            <option value="3" >Widow/Widower</option>
-                            <option value="3" >Separated</option>
-                            <option value="3" >Divorcee</option>
+                    <div class="col-sm-7">
+                        <select class="selectpicker form-control" name="marital_status[]" multiple>
+                            @php
+                                $selectedMaritalStatus = request()->has('marital_status') ? request()->input('marital_status') : [1];
+                            @endphp
+                            @foreach ($maritalStatus as $status )
+                                <option value="{{ $status->id }}" @if(in_array($status->id, $selectedMaritalStatus)) selected @endif>
+                                    {{ $status->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
+                        <a href="{{ route('member.dashboard') }}" class="btn btn-danger">
+                            <i class="icon-refresh"></i>
+                        </a>
                         <button type="submit" class="btn btn-success">
                             <i class="icon-search"></i>
                         </button>

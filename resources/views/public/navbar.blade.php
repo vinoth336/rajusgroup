@@ -55,12 +55,12 @@
             </li>
 
             <li class="menu-item mega-menu">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="/#success_stories">
                     <div>Our Success Stories</div>
                 </a>
             </li>
             <li class="menu-item mega-menu">
-                <a class="menu-link" href="{{-- route('site_faqs') --}}">
+                <a class="menu-link" href="/#faqs">
                     <div>Faqs</div>
                 </a>
             </li>

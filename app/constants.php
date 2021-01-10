@@ -2,6 +2,12 @@
 
 define('MALE', 1);
 define('FEMALE', 2);
+define('MEMBER_ACCOUNT_STATUS_ACTIVE', 1);
+define('MEMBER_ACCOUNT_STATUS_DEACTIVATE', 0);
+
+define('PAYMENT_STATUS_PAID', 1);
+define('PAYMENT_STATUS_NOT_PAID', 0);
+
 
 //PROFILE INTEREST REQUEST STATUS
 define('PROFILE_REQUEST_PENDING', 1);
@@ -43,3 +49,17 @@ define('ANNUAL_INCOME_RANGE_KEY_VALUE', [
     'above_1c' => '7'
 ]);
 
+
+define('DHOSHAMS', [
+    'cheevai' => 'Cheevai',
+    'surya' => 'Surya',
+    'mangalyam' => 'Mangalyam'
+]);
+
+
+//Response Code
+
+define('SUCCESS', 200);
+define('PAYMENT_REQUIRED', 402);
+define('SERVER_ERROR', 500);
+define('UNAUTHORISED', 401);

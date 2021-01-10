@@ -8,7 +8,9 @@ use App\Http\Requests\CreateMemberBasicDetailRequest;
 use App\Models\Blood;
 use App\Models\City;
 use App\Models\Degree;
+use App\Models\Dhosam;
 use App\Models\FamilyType;
+use App\Models\MaritalStatus;
 use App\Models\Member;
 use App\Models\MemberEducation;
 use App\Models\MemberFamily;
@@ -43,7 +45,7 @@ class AdminMemberController extends Controller
 
     public function index(Request $request)
     {
-        $members = Member::get();
+        $members = Member::withoutGlobalScope('active_account_only')->orderBy('created_at', 'desc')->get();
         return view('member.list')
         ->with('members', $members);
     }
@@ -71,7 +73,7 @@ class AdminMemberController extends Controller
 
     public function edit(Request $request, $member)
     {
-        $member = Member::where('id', $member)->with(['blood', 'mother_tongue'])->first();
+        $member = Member::withoutGlobalScope('active_account_only')->where('id', $member)->with(['blood', 'mother_tongue'])->first();
 
         $bloodGroup = Blood::orderBy('id')->get();
         $degrees = Degree::get();
@@ -81,6 +83,9 @@ class AdminMemberController extends Controller
         $states = State::get();
         $rasies = Zodiac::get();
         $stars = Star::get();
+        $maritalStatus = MaritalStatus::orderBy('sequence')->get();
+        $dhosams = Dhosam::orderBy('sequence')->get();
+
         return view('member.edit')
             ->with('member', $member)
             ->with('bloodGroup', $bloodGroup)
@@ -91,14 +96,18 @@ class AdminMemberController extends Controller
             ->with('states', $states)
             ->with('memberHoroscope', $memberHoroscope)
             ->with('rasies', $rasies)
-            ->with('stars', $stars);
+            ->with('stars', $stars)
+            ->with('maritalStatus', $maritalStatus)
+            ->with('dhosams', $dhosams)
+            ;
     }
 
-    public function update(Request $request, Member $member)
+    public function update(Request $request, $memberId)
     {
         DB::beginTransaction();
 
         try {
+            $member = Member::withoutGlobalScope('active_account_only')->findOrFail($memberId);
             $member = $this->saveBasicMemberInformation($request, $member);
             $this->saveEducation($request, $member);
             $this->saveOccupation($request, $member);
@@ -145,6 +154,8 @@ class AdminMemberController extends Controller
 
     public function saveBasicMemberInformation(Request $request, Member $member)
     {
+        $maritalStatus = MaritalStatus::where('slug', $request->marital_status)->first();
+        $dhosam = Dhosam::where('slug', $request->dhosam)->first();
         $member->first_name = $request->first_name;
         $member->last_name = $request->last_name;
         $member->dob = $request->dob;
@@ -157,6 +168,10 @@ class AdminMemberController extends Controller
         $member->username = $request->username;
         $member->password = $member->password ?? Hash::make('Welcome1');
         $member->member_code = generateMemberCodeNumber();
+        $member->marital_status_id = $maritalStatus->id ?? 1;
+        $member->dhosam_id = $dhosam->id ?? 1;
+        $member->account_status = $request->account_status ? MEMBER_ACCOUNT_STATUS_ACTIVE : MEMBER_ACCOUNT_STATUS_DEACTIVATE;
+        $member->payment_status = $request->payment_status ? PAYMENT_STATUS_PAID : PAYMENT_STATUS_NOT_PAID;
         $member->save();
 
         $image = $request->has('profile_photo') ? $request->file('profile_photo') : null;
@@ -175,6 +190,9 @@ class AdminMemberController extends Controller
         $states = State::get();
         $rasies = Zodiac::get();
         $stars = Star::get();
+        $maritalStatus = MaritalStatus::orderBy('sequence')->get();
+        $dhosams = Dhosam::orderBy('sequence')->get();
+
         return view('member.create')
             ->with('basicInformation', $member)
             ->with('bloodGroup', $bloodGroup)
@@ -186,7 +204,8 @@ class AdminMemberController extends Controller
             ->with('memberHoroscope', $memberHoroscope)
             ->with('rasies', $rasies)
             ->with('stars', $stars)
-
+            ->with('maritalStatus', $maritalStatus)
+            ->with('dhosams', $dhosams)
             ;
     }
 }

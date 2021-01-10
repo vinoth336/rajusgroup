@@ -1,10 +1,28 @@
+@if(!empty($profile))
+@php
+    $isInterestAccepted = false;
+    $profileInterestReceived = $profile->current_user_interest_received()->first();
+    $responseStatus = $profileInterestReceived->request_status ?? null;
+
+    $profileInterestRequest = $profile->current_user_interested_profiles()
+    ->where('profile_status', PROFILE_INTEREST)->first();
+    $requestStatus = $profileInterestRequest->request_status ?? null;
+    if($responseStatus == PROFILE_REQUEST_APPROVED ||
+        $requestStatus == PROFILE_REQUEST_APPROVED) {
+        $isInterestAccepted = true;
+    }
+@endphp
+
 <div class="entry event col-12 member_profile ">
     <input type="hidden" name="member_code" value="{{ $profile->member_code }}" />
     <div class="grid-inner row align-items-center no-gutters p-4">
-
         <div class="entry-image col-md-4 mb-md-0">
             <a href="#">
-                <img src="{{ $profile->secureProfilePhoto() }}" alt="{{ $profile->fullName }}">
+                @if($isInterestAccepted)
+                    <img src="{{ $profile->secureProfilePhoto() }}" alt="{{ $profile->fullName }}">
+                @else
+                    <img src="{{ $profile->getDefaultProfilePhoto() }}" alt="{{ $profile->fullName }}">
+                @endif
             </a>
         </div>
         <div class="col-md-8 pl-md-4">
@@ -37,10 +55,6 @@
             </div>
             <div class="entry-meta">
                 @if($checkProfileStatus ?? false)
-                    @php
-                        //info("-------------------------------");
-                        //$temp = $profile->current_user_interest_received;
-                    @endphp
                     @if($profile->current_user_interest_received()->count() ?? false)
                         @php
                             $profileInterestReceived = $profile->current_user_interest_received()->first();
@@ -51,6 +65,14 @@
                             @php
                                 $showInterestAcceptButton = true;
                                 $showInterestRejectButton = true;
+                                $showBlockButton = false;
+                            @endphp
+                        @elseif($requestStatus == PROFILE_REQUEST_APPROVED)
+                            <b>Interest Accepted</b>
+                            @php
+                                $showInterestAcceptButton = false;
+                                $showInterestRejectButton = false;
+                                $showBlockButton = false;
                             @endphp
                         @endif
                     @elseif($profile->current_user_interested_profiles()->count() ?? false)
@@ -62,17 +84,20 @@
                             @if($requestStatus == PROFILE_REQUEST_APPROVED && $profileStatus == PROFILE_INTEREST)
                                 Your Request Accepted
                                 @php
-                                    $showInterestRejectButton = true;
+                                    $showInterestRejectButton = false;
                                 @endphp
                             @elseif($requestStatus == PROFILE_REQUEST_PENDING && $profileStatus == PROFILE_INTEREST)
-                                Your Request In Pending
+                                Waiting for <b>{{ $profile->fullName }}</b> To Accept
                                 @php
+                                    $showSendInterestButton = false;
+                                    $showIgnoreButton = false;
                                     $showDeleteRequest = true;
                                 @endphp
                             @elseif($profileStatus == PROFILE_SHORTLIST)
                                 @php
                                     $showSendInterestButton = true;
                                     $showIgnoreButton = true;
+                                    $showDeleteFromShortList = true;
                                 @endphp
                             @elseif($profileStatus == PROFILE_IGNORED)
                                 @php
@@ -102,18 +127,18 @@
                 <br>
             @endif
                 @if($showInterestAcceptButton ?? false)
-                    <button type="button" class="btn btn-success btn-sm mb-1 accept_interest">
+                    <button type="button" class="btn btn-success btn-sm mb-1 accept_profile_interest">
                         <i class="icon-line-check"></i>&nbsp;Accept
                     </button>
                 @endif
                 @if($showInterestRejectButton ?? false)
-                    <button type="button" class="btn btn-danger btn-sm mb-1 ignore_request">
+                    <button type="button" class="btn btn-danger btn-sm mb-1 not_interest">
                         <i class="icon-line-cross"></i>&nbsp;Not Interest
                     </button>
                 @endif
                 @if($showDeleteRequest ?? false)
-                    <button type="button" class="btn btn-danger btn-sm mb-1 delete_request">
-                        <i class="icon-line-cross"></i>&nbsp;Delete Request
+                    <button type="button" class="btn btn-danger btn-sm mb-1 delete_my_request">
+                        <i class="icon-line-cross"></i>&nbsp;Delete My Request
                     </button>
                 @endif
                 @if($showShortListButton ?? false)
@@ -132,11 +157,22 @@
                     </button>
                 @endif
                 @if($showDeleteFromIgnoreList ?? false)
-                    <button type="button" class="btn btn-danger btn-sm mb-1 delete_from_ignore_list">
+                    <button type="button" class="btn btn-danger btn-sm mb-1 remove_from_ignore_list">
                         <i class="icon-line-cross"></i>&nbsp;Remove From Ignore List
+                    </button>
+                @endif
+                @if($showDeleteFromShortList ?? false)
+                    <button type="button" class="btn btn-danger btn-sm mb-1 remove_from_short_list">
+                        <i class="icon-line-cross"></i>&nbsp;Remove From Short List
+                    </button>
+                @endif
+                @if($showBlockButton ?? false)
+                    <button type="button" class="btn btn-warning btn-sm mb-1 block_profile text-white">
+                        <i class="icon-line-ban"></i>&nbsp;Block Profile
                     </button>
                 @endif
             </div>
         </div>
     </div>
 </div>
+@endif

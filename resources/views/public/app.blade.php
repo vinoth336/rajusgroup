@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="{{-- $siteInformation->site_name --}}" />
-    <meta name="description" content="{{-- $siteInformation->meta_description --}}" />
-    <link rel="canonical" href="https://www.marriedly.in" />
-    <meta property="og:locale" content="en_US">
-    <meta property="og:type" content="sitesite">
-    <meta property="og:title" content="Choose the Best Wedding Decorators In Coimbatore -marriedly.in">
-    <meta property="og:description" content="Find the best wedding decorators in coimbatore for your Events like Wedding Decorations,Birthday Decorations,Engagement,Reception and outdoor wedding Backdrops. Order now!">
-    <meta property="og:url" content="https://www.marriedly.in">
-    <meta property="og:site_name" content="Wedding Decorators in Coimbatore">
-    <meta property="article:publisher" content="https://www.facebook.com/marriedly">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@@RajusMatrimony">
-    <meta name="twitter:site" content="@@RajusMatrimony">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="{{ $siteInformation->site_name }}" />
+<meta name="description" content="{{ $siteInformation->meta_description }}" />
+<link rel="canonical" href="https://www.rajusgroup.com" />
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ $siteInformation->site_name }}">
+<meta property="og:description" content="{{ $siteInformation->meta_description }}">
+<meta property="og:url" content="https://www.rajusgroup.com">
+<meta property="og:site_name" content="{{ $siteInformation->site_name }}">
+<meta property="article:publisher" content="Rajus Group">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="{{ __("@") }}{{ str_replace(" ", "",$siteInformation->site_name) }}">
+<meta name="twitter:site" content="{{ __("@") }}{{ str_replace(" ", "",$siteInformation->site_name) }}">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
 
 	<link
 		href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Poppins:300,400,500,600,700|PT+Serif:400,400i&amp;display=swap"
@@ -82,7 +82,24 @@
         </style>
 
 	<div id="wrapper" class="clearfix">
-
+        <div id="top-bar">
+            <div class="container">
+                    <div class="row justify-content-between align-items-center">
+                            <div class="col-12">
+                                    <p class="mb-0 py-2 text-right text-md-right">
+                                            <strong>Call:</strong>
+                                            <a href="tel:{{ $siteInformation->phone_no }}">
+                                                {{ $siteInformation->phone_no }}
+                                            </a>|
+                                            <strong>Email:</strong>
+                                            <a href="mailto:{{ $siteInformation->email_id }}" class="__cf_email__">
+                                                {{ $siteInformation->email_id }}
+                                            </a>
+                                    </p>
+                            </div>
+                    </div>
+            </div>
+        </div>
 		<header id="header" class="full-header transparent-header white"  data-sticky-logo-height="74" data-menu-padding="32">
 			<div id="header-wrap">
 				<div class="container">

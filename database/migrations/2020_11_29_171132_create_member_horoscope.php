@@ -19,6 +19,7 @@ class CreateMemberHoroscope extends Migration
             $table->integer('star');
             $table->integer('rasi');
             $table->integer('lagnam');
+            $table->string('dosham');
             $table->string('image', 300);
             $table->timestamps();
         });

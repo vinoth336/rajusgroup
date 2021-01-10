@@ -22,7 +22,7 @@ class MemberLoginController extends Controller
 
             return redirect()
                  ->intended(route('member.dashboard'))
-                 ->with('status', 'You are Logged in as Admin!');
+                 ->with('status', 'You are Logged in Successfully');
         }
 
         //Authentication failed...
