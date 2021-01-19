@@ -276,9 +276,11 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                         <label class="col-sm-5 col-form-label">{{ __('Qualifications') }}</label>
                                         <div class="col-sm-12">
                                                 @php
-                                                    $profileDegrees = $profileEducations->where('degree_id', '!=', DEGREE_OTHERS)->pluck('degree_id')->toArray();
-                                                    $otherDegrees = $profileEducations->whereNotNull('remarks')->pluck('remarks')->toArray();
+                                                    $profileDegrees = $degrees->whereIn('id', $profileEducations->where('degree_id', '!=', DEGREE_OTHERS)->pluck('degree_id'))->pluck('name');
+                                                    $profileDegrees = $profileDegrees->toArray();
+                                                    $otherDegrees = $profile->educations->whereNotNull('remarks')->pluck('remarks')->toArray();
                                                     $profileDegrees = implode(" , ", array_merge($profileDegrees, $otherDegrees));
+
                                                 @endphp
                                                {{ $profileDegrees }}
                                         </div>
