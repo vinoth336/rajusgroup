@@ -800,7 +800,6 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
     });
     $("#input_dhosam").on('change', function() {
        var vals = $(this).val();
-       alert('hi');
        if(vals  == $("#others_dhosam_value").val() ) {
             $("#dhosam_remark_container").removeClass('hide');
        } else {
