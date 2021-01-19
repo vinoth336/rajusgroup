@@ -89,7 +89,7 @@
                                          </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-sm-12 col-form-label font-normal">{{ __('Mother Tuge') }}</label>
+                                        <label class="col-sm-12 col-form-label font-normal">{{ __('Mother Tongue') }}</label>
                                         <div class="col-sm-12">
                                             <select class="selectpicker form-control" name="mother_tongue">
                                                 <option value="1" >Tamil</option>
@@ -276,14 +276,11 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                         <label class="col-sm-5 col-form-label">{{ __('Qualifications') }}</label>
                                         <div class="col-sm-12">
                                                 @php
-                                                    $profileDegrees = $profileEducations->pluck('degree_id')->toArray();
+                                                    $profileDegrees = $profileEducations->where('degree_id', '!=', DEGREE_OTHERS)->pluck('degree_id')->toArray();
+                                                    $otherDegrees = $profileEducations->whereNotNull('remarks')->pluck('remarks')->toArray();
+                                                    $profileDegrees = implode(" , ", array_merge($profileDegrees, $otherDegrees));
                                                 @endphp
-                                                @foreach($degrees as $degree)
-                                                    @if(old('degree.0') == $degree->id
-                                                    || in_array($degree->id, $profileDegrees))
-                                                    {{ $degree->name }} ,
-                                                    @endif
-                                                @endforeach
+                                               {{ $profileDegrees }}
                                         </div>
                                     </div>
                                 </div>
@@ -404,6 +401,17 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
 
                                                 </div>
                                             </div>
+                                            <div class="form-row profile_info">
+                                                <div class="col-md-6 form-group">
+                                                    <label class="col-sm-5 col-form-label">{{ __('Remarks') }}</label>
+                                                    <div class="col-sm-12">
+                                                        <div
+                                                            class="form-group">
+                                                            {{ $profileFamily->remarks }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-row profile_info">
@@ -492,7 +500,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                 <div class="col-sm-12">
                                                     <div
                                                         class="form-group{{ $errors->has('lagnam') ? ' has-danger' : '' }}">
-                                                            {{ $profileHoroscope->lagnam }}
+                                                            {{ optional($profileHoroscope->lagnam_rasi)->name }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -530,6 +538,23 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                     </div>
                                                 </div>
                                             </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6 form-group">
+                                            <label class="col-sm-5 col-form-label">{{ __('Dhosam') }}</label>
+                                            <div class="col-sm-12">
+                                                <div
+                                                    class="form-group">
+                                                     {{ optional($profile->dhosam)->name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 form-group @if($profile->dhosam_remarks == null)  hide @endif" >
+                                            <label class="col-sm-5 col-form-label">Other Dhosam</label>
+                                            <div class="col-sm-12">
+                                                {{ $profile->dhosam_remarks }}
+                                            </div>
+                                        </div>
                                     </div>
                             </div>
                         </div>

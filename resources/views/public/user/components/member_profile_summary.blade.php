@@ -34,8 +34,11 @@
             <div class="entry-meta">
                 <ul>
                     @php
-                        $profileDegree = $degrees->whereIn('id', $profile->educations->pluck('degree_id'))->pluck('name');
-                        $profileDegree = implode(",", $profileDegree->toArray());
+                        $profileDegrees = $degrees->whereIn('id', $profile->educations->where('degree_id', '!=', DEGREE_OTHERS)->pluck('degree_id'))->pluck('name');
+                        $profileDegrees = $profileDegrees->toArray();
+                        $otherDegrees = $profile->educations->whereNotNull('remarks')->pluck('remarks')->toArray();
+                        $profileDegrees = implode(" , ", array_merge($profileDegrees, $otherDegrees));
+
                         $profileLocation = $profile->location ?? optional();
                         $profileLocationCity = $profileLocation->city ? $profileLocation->city->name : null;
                         $profileLocationState = $profileLocation->state ? $profileLocation->state->name : null;
@@ -45,7 +48,7 @@
                     @endphp
                     <li>Age : {{ $profile->age }}</li>
                     <li>Mother Tongue : {{ $profile->mother_tongue->name }}</li>
-                    <li>Education : {{ $profileDegree }}</li>
+                    <li>Education : {{ $profileDegrees }}</li>
                     <li>Annual Income : {{ $annualIncome }}</li>
                     <li>Occupation : {{ optional($profile->occupation)->role }}</li>
                     @if($member->viewProfileLocation())

@@ -25,8 +25,8 @@ class MemberRegistrationSaveRequest extends FormRequest
     {
         $id = $this->id ?? null;
         return [
-            'first_name' => 'required|string|max:50',
-            'last_name' => 'string|max:50',
+            'first_name' => 'required|alpha|max:50',
+            'last_name' => 'nullable|alpha|max:50',
             'blood' => 'required|exists:bloods,id',
             'gender' => 'required|in:1,2',
             'dob' => 'date|required|date_format:d-m-Y|before:18 years ago',

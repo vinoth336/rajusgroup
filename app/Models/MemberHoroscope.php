@@ -35,4 +35,9 @@ class MemberHoroscope extends Model
     {
         return $this->belongsTo(Zodiac::class, 'rasi_id', 'id');
     }
+
+    public function lagnam_rasi()
+    {
+        return $this->belongsTo(Zodiac::class, 'lagnam', 'id');
+    }
 }

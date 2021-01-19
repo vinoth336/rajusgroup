@@ -689,6 +689,7 @@ class MemberController extends Controller
         $dhosam = Dhosam::where('slug', $request->dhosam)->first();
         $member->marital_status_id = $maritalStatus->id ?? 1;
         $member->dhosam_id = $dhosam->id ?? 1;
+        $member->dhosam_remarks = $request->dhosam_remarks;
         $member->save();
 
         $image = $request->has('profile_photo') ? $request->file('profile_photo') : null;

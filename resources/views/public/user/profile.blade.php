@@ -7,6 +7,11 @@ $memberFamily = $member->family ?? optional();
 $memberLocation = $member->location ?? optional();
 $memberHoroscope = $member->horoscope ?? optional();
 @endphp
+<style>
+    .hide {
+        display: none;
+    }
+</style>
 <section id="page-title" class="page-title-pattern page-title-dark skrollable skrollable-between" style="background: rgb(34,195,90);
 background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(54,127,173,1) 100%);padding:1rem 0;">
 
@@ -222,7 +227,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                             </div>
                                             <div class="form-row">
                                                 <div class="col-md-6 form-group">
-                                                    <label class="col-sm-5 col-form-label">{{ __('Mother Tuge') }}</label>
+                                                    <label class="col-sm-5 col-form-label">{{ __('Mother Tongue') }}</label>
                                                     <div class="col-sm-12">
                                                         <div class="form-group{{ $errors->has('mother_tongue') ? ' has-danger' : '' }}">
                                                             <select class="selectpicker select form-control {{ $errors->has('mother_tongue') ? ' is-invalid' : '' }}" name="mother_tongue" required>
@@ -289,13 +294,15 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                     <div class="tab-content" id="education-and-occupation-details">
                                         <div class="form-row">
                                             <div class="col-md-12 form-group">
+                                                <input type="hidden" id="others_degree_value" value="{{ DEGREE_OTHERS }}" />
                                                 <label class="col-sm-5 col-form-label">{{ __('Qualifications') }}</label>
                                                 <div class="col-sm-12">
                                                         @php
                                                             $memberDegrees = $memberEducations->pluck('degree_id')->toArray();
+                                                            $degreeRemarks = implode(" ", $memberEducations->whereNotNull('remarks')->pluck('remarks')->toArray());
                                                         @endphp
 
-                                                        <select class="selectpicker select form-control" name="degree[]" id="input-service" type="text" multiple >
+                                                        <select class="selectpicker select form-control" name="degree[]" id="input_degree" type="text" multiple >
                                                             <option value=''>Select Degree</option>
                                                             @foreach($degrees as $degree)
                                                                 <option value="{{ $degree->id }}" @if(old('degree.0') == $degree->id
@@ -303,6 +310,12 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                                 selected @endif >{{ $degree->name }}</option>
                                                             @endforeach
                                                         </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 form-group @if($degreeRemarks == null)  hide @endif" id="degree_remark_container">
+                                                <label class="col-sm-5 col-form-label">Other Degree Name</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control col-sm-6" name="degree_remarks" value="{{ $degreeRemarks }}" />
                                                 </div>
                                             </div>
                                         </div>
@@ -445,7 +458,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 form-group">
-                                                            <label class="col-sm-5 col-form-label">{{ __('Parents') }}</label>
+                                                            <label class="col-sm-5 col-form-label">{{ __('Parents / Guardians') }}</label>
                                                             <div class="col-sm-12">
                                                                 <div
                                                                     class="form-group{{ $errors->has('parents') ? ' has-danger' : '' }}">
@@ -505,6 +518,26 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
 
                                                         </div>
                                                     </div>
+                                                    <div class="form-row">
+                                                        <div class="col-md-6 form-group">
+                                                            <label class="col-sm-5 col-form-label">{{ __('Family Remarks') }}</label>
+                                                            <div class="col-sm-12">
+                                                                <div
+                                                                    class="form-group{{ $errors->has('family_remarks') ? ' has-danger' : '' }}">
+                                                                    <textarea
+                                                                        class="form-control{{ $errors->has('family_remarks') ? ' is-invalid' : '' }}"
+                                                                        name="family_remarks" id="input-parents" type="text"
+                                                                        placeholder="{{ __('Remarks') }}"
+                                                                        >{{ old('parents', $memberFamily->remarks) }}</textarea>
+                                                                    @if ($errors->has('family_remarks'))
+                                                                        <span id="name-error" class="error text-danger"
+                                                                            for="input-family_remarks">{{ $errors->first('family_remarks') }}</span>
+                                                                    @endif
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
@@ -538,7 +571,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                             <div
                                                                 class="form-group{{ $errors->has('State') ? ' has-danger' : '' }}">
                                                                 <select class="selectpicker select form-control" name="state" >
-                                                                    <option value="">Select City</option>
+                                                                    <option value="">Select State</option>
                                                                     @foreach ($states as $state )
                                                                         <option value="{{ $state->id }}" @if(old('state', $memberLocation->state_id) == $state->id) selected @endif>
                                                                             {{ $state->name }}
@@ -619,6 +652,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                             </div>
                                     </div>
                                     <div class="tab-content" id="horoscope-details">
+                                            <input type="hidden" id="others_dhosam_value" value="{{ DHOSHAM_OTHERS }}" />
                                             <div class="form-row">
                                                     <div class="col-md-6 form-group">
                                                         <label class="col-sm-5 col-form-label">{{ __('Rasi') }}</label>
@@ -647,12 +681,14 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                         <div class="col-sm-12">
                                                             <div
                                                                 class="form-group{{ $errors->has('lagnam') ? ' has-danger' : '' }}">
-                                                                <input
-                                                                    class="form-control{{ $errors->has('lagnam') ? ' is-invalid' : '' }}"
-                                                                    name="lagnam" id="input-lagnam" type="text"
-                                                                    placeholder="{{ __('Lagnam') }}"
-                                                                    value="{{ old('lagnam', $memberHoroscope->lagnam) }}"
-                                                                    aria-data-required="true" />
+                                                                <select class="selectpicker select form-control" name="lagnam" >
+                                                                    <option value="">Select Lagnam</option>
+                                                                    @foreach ($rasies as $rasi )
+                                                                        <option value="{{ $rasi->id }}" @if(old('lagnam', optional($memberHoroscope->lagnam_rasi)->id) == $rasi->id) selected @endif>
+                                                                            {{ $rasi->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
                                                                 @if ($errors->has('lagnam'))
                                                                     <span id="name-error" class="error text-danger"
                                                                         for="input-lagnam">{{ $errors->first('lagnam') }}</span>
@@ -709,7 +745,7 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                         <div
                                                             class="form-group{{ $errors->has('rasi') ? ' has-danger' : '' }}">
 
-                                                            <select class="selectpicker select form-control" name="dhosam" id="input-dhosam" type="text">
+                                                            <select class="selectpicker select form-control" name="dhosam" id="input_dhosam" >
                                                                 <option value=''>Select Dhosam Status</option>
                                                                 @foreach($dhosams as $dhosam)
                                                                     <option value="{{ $dhosam->slug }}" @if(old('dhosam', optional($member->dhosam)->slug) == $dhosam->slug))
@@ -722,6 +758,12 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                             @endif
 
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 form-group @if($member->dhosam_remarks == null)  hide @endif" id="dhosam_remark_container">
+                                                    <label class="col-sm-5 col-form-label">Other Dhosam</label>
+                                                    <div class="col-sm-12">
+                                                        <textarea class="form-control col-sm-6" name="dhosam_remarks">{{ old('dhosam_remarks', $member->dhosam_remarks) }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -741,9 +783,32 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
         </div>
     </div>
 </section>
+@push('js')
 <script>
     $(document).ready(function() {
         $('.selectsplitter').selectsplitter();
     });
+    $("#input_degree").on('change', function() {
+       var vals = $(this).val();
+       if(vals.indexOf($("#others_degree_value").val()) >= 0 ) {
+            $("#degree_remark_container").removeClass('hide');
+       } else {
+           if(!$("#degree_remark_container").hasClass('hide')) {
+                $("#degree_remark_container").addClass('hide');
+           }
+       }
+    });
+    $("#input_dhosam").on('change', function() {
+       var vals = $(this).val();
+       alert('hi');
+       if(vals  == $("#others_dhosam_value").val() ) {
+            $("#dhosam_remark_container").removeClass('hide');
+       } else {
+           if(!$("#dhosam_remark_container").hasClass('hide')) {
+                $("#dhosam_remark_container").addClass('hide');
+           }
+       }
+    });
 </script>
+@endpush
 @endsection

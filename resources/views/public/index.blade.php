@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <label class="control-label col-sm-4 col-md-4" for="mother_tongue">
-                                        Mother Tuge
+                                        Mother Tongue
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
@@ -205,6 +205,8 @@
                                     <label class="control-label col-sm-4 col-md-4" for="passwords">
                                         Password
                                         <span class="text-danger">*</span>
+                                        <br>
+                                        <i style="font-size: 9px">(Min 6)</i>
                                     </label>
                                     <div class="col-sm-8 col-md-8">
                                         <input type="password" class="form-control"  required placeholder="Password" name="password" min="6">
@@ -235,7 +237,7 @@
                                 <br>
                                 <div class="text-center">
                                     Already Existing Customer, Click here for
-                                    <a href="">Login</a>
+                                    <a href="{{ route('public.login') }}">Login</a>
                                 </div>
                             </form>
 
@@ -385,7 +387,7 @@
                 </div>
                 <hr>
                     <div class="row col-mb-50">
-                        <div class="col-sm-6 col-lg-3" style="cursor: pointer" onclick="window.open('https://goo.gl/maps/u86ebsZ7AeX54e7g9', '_blank')">
+                        <div class="col-sm-6 col-lg-3" style="cursor: pointer">
                             <div class="feature-box fbox-center fbox-bg fbox-plain">
                                 <div class="fbox-icon">
                                     <a href="#"><i class="icon-map-marker2"></i></a>

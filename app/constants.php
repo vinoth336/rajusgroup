@@ -35,7 +35,7 @@ define('ANNUAL_INCOME_RANGE', [
     'below_10l' => '5 - 10 Lakhs',
     'below_50l' => '10 - 50 Lakhs',
     'below_1c' => '50 - 1 Crore',
-    'above_1c' => 'Above 1 '
+    'above_1c' => 'Above 1 Crore'
 ]);
 
 define('ANNUAL_INCOME_RANGE_KEY_VALUE', [
@@ -63,3 +63,6 @@ define('SUCCESS', 200);
 define('PAYMENT_REQUIRED', 402);
 define('SERVER_ERROR', 500);
 define('UNAUTHORISED', 401);
+
+define('DEGREE_OTHERS', 7);
+define('DHOSHAM_OTHERS', 'others');

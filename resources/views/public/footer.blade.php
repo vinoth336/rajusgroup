@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row col-mb-30">
                 <div class="col-md-6 text-center text-md-left">
-                    Copyrights &copy; {{ date('Y') }} All Rights Reserved by {{-- $siteInformation->site_name --}}.<br>
+                    Copyrights &copy; {{ date('Y') }} All Rights Reserved by {{ $siteInformation->site_name }}.<br>
                 </div>
                 <div class="col-md-6 text-center text-md-right">
                     <div class="d-flex justify-content-center justify-content-md-end">
@@ -38,7 +38,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
+@stack('js')
 <!--
 <a class="hide" href="https://wa.me/91{{-- $siteInformation->phone_no --}}?text=Hi Marriedly," class="float" target="_blank">
 <i class="fa icon-whatsapp my-float"></i>

@@ -21,6 +21,10 @@ trait SaveMemberDetails {
             $education = $memberEducation->where("degree_id", $degreeId)->first() ?? new MemberEducation();
             $education->member_id = $member->id;
             $education->degree_id = $degreeId;
+
+            if($degreeId == DEGREE_OTHERS) {
+                $education->remarks = $request->input('degree_remarks');
+            }
             $education->save();
 
             array_push($ids, $education->id);
@@ -53,6 +57,7 @@ trait SaveMemberDetails {
         $family->parents = $request->input('parents');
         $family->brothers = $request->input('brothers');
         $family->sisters = $request->input('sisters');
+        $family->remarks = $request->input('family_remarks');
         $family->save();
 
         return $family;
