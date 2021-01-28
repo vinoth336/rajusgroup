@@ -1,7 +1,7 @@
 <div class="col-md-3 d-none d-sm-block fixed">
     <div class="row" style="overflow: auto">
         <div class="col-md-12">
-            <div class="fancy-title title-border" style="margin-bottom: 5px;margin-top:1rem !important">
+            <div class="fancy-title title-border" style="margin-bottom: 5px;margin-top:0.1rem !important">
                 <h3>Filter</h3>
             </div>
             <form method="post" action="{{ route('member.dashboard') }}">
