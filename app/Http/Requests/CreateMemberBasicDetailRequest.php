@@ -33,7 +33,7 @@ class CreateMemberBasicDetailRequest extends FormRequest
             'mother_tongue' => 'required|exists:mother_tongues,id',
             'email' => 'required|email|unique:member_registration_requests,email',
             'phone_no' => 'required|numeric|regex:/[0-9]{10}/|unique:member_registration_requests,phone_no',
-            'profile_photo' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:1048',
+            'profile_photo' => 'image|nullable|mimes:jpeg,png,jpg|max:5240',
             'username' => 'required|string|unique:member_registration_requests,username'
         ];
     }
