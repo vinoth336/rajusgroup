@@ -25,6 +25,7 @@ trait StoreImage {
                 $name = time(). "_" . $image->getClientOriginalName();
                 $storagePath = public_path('site/images/' . $this->storagePath);
 
+                info("Storage Path" . $storagePath);
                 $this->makeFolder($storagePath);
 
                 if(!empty($thumbnailSize)) {
@@ -36,10 +37,15 @@ trait StoreImage {
                     $img->resize(800,800);
                 }
 
+                info("Thumbnail process done");
                 if($this->addWaterMark) {
                     $img->insert(public_path('site/images/watermark/rajus_watermark.png'), 'center');
                 }
+
+                info("Adding water mark images");
                 $img->save($storagePath . "/" .$name);
+
+                info("process saved");
             }
             $this->unlinkImage($this->getOriginal($this->fileParamName));
             $this->{$this->imageFieldName} = $name;
@@ -89,14 +95,20 @@ trait StoreImage {
 
         $thumbnailpath = public_path('site/images/' . $this->storagePath . '/thumbnails') ;
 
+
+        info("Thumbnail path"  . $thumbnailpath);
         $this->makeFolder($thumbnailpath);
 
         $img = Image::make($image->getRealPath())->resize($thumbnailSize['width'], $thumbnailSize['height'], function($constraint) {
             //$constraint->aspectRatio();
         });
+        info("Thumb Image resize is done");
         $img->insert(public_path('site/images/watermark/rajus_watermark_thumbnail.png'), 'bottom-right');
 
+        info("Thumb watermark added ");
         $img->save($thumbnailpath . '/' . $name);
+
+        info("Thumb saved");
     }
 
     public function makeFolder($filePath)
