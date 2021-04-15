@@ -333,9 +333,9 @@
                             <div class="card-body">
                                 <h4>Address</h4>
                                 <p>
-                                        155, second street,<br>
-                                        Trichy Main Road, <br>
-                                        Karur
+                                        396/4, Ramasamy House,<br>
+                                        Andankovil Puthur Keelpagam,<br>
+                                        Karur - 639002
                                 </p>
                             </div>
                         </div>
@@ -344,8 +344,7 @@
                         <div class="card overflow-hidden" style="border:none">
                             <div class="card-body">
                                 <h4>Opening Hours</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit reprehenderit
-                                    voluptates.</p>
+                                <p></p>
                                 <ul class="iconlist mb-0">
                                     <li><i class="icon-time color"></i> <strong>Mondays-Fridays:</strong> {{ $siteInformation->working_hours_mon_fri }}</li>
                                     <li><i class="icon-time color"></i> <strong>Saturdays:</strong> {{ $siteInformation->working_hours_sat }}</li>

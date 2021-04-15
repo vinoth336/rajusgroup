@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         $totalMembers = Member::count();
         $maleMembersCount = Member::where('gender', MALE)->count();
-        $femaleMembersCount = Member::where('gender', MALE)->count();
+        $femaleMembersCount = Member::where('gender', FEMALE)->count();
         $memberRegisterationCount = MemberRegistrationRequest::count();
 
         return view('dashboard')
