@@ -213,7 +213,7 @@
                                                             class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                                             name="email" id="input-email" type="text"
                                                             placeholder="{{ __('Email Id') }}" value="{{ old('email') }}"
-                                                            required="true" aria-required="true" />
+                                                             aria-required="true" />
                                                         @if ($errors->has('email'))
                                                             <span id="name-error" class="error text-danger"
                                                                 for="input-email">{{ $errors->first('email') }}</span>

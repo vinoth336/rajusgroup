@@ -34,7 +34,10 @@ trait StoreImage {
                 $image->move($storagePath, $name);
                 $img = Image::make($storagePath . "/" .$name)->orientate();
                 if ($this->resize) {
-                    $img->resize(800,800);
+                    $img->resize(800,800, function($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
                 }
 
                 info("Thumbnail process done");
@@ -100,7 +103,8 @@ trait StoreImage {
         $this->makeFolder($thumbnailpath);
 
         $img = Image::make($image->getRealPath())->resize($thumbnailSize['width'], $thumbnailSize['height'], function($constraint) {
-            //$constraint->aspectRatio();
+            $constraint->aspectRatio();
+            $constraint->upsize();
         })->orientate();
         info("Thumb Image resize is done");
         $img->insert(public_path('site/images/watermark/rajus_watermark_thumbnail.png'), 'bottom-right');
