@@ -54,7 +54,8 @@ trait SaveMemberDetails {
         $family = $member->family ?? new MemberFamily;
         $family->member_id = $member->id;
         $family->family_type_id = $request->input('family_type');
-        $family->parents = $request->input('parents');
+        $family->father_name = $request->input('father_name');
+        $family->mother_name = $request->input('mother_name');
         $family->brothers = $request->input('brothers');
         $family->sisters = $request->input('sisters');
         $family->remarks = $request->input('family_remarks');

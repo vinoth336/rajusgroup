@@ -458,19 +458,38 @@ background: linear-gradient(0deg, rgba(34,195,90,0.9752275910364145) 27%, rgba(5
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 form-group">
-                                                            <label class="col-sm-5 col-form-label">{{ __('Parents / Guardians') }}</label>
+                                                            <label class="col-sm-5 col-form-label">{{ __('Father Name') }}</label>
                                                             <div class="col-sm-12">
                                                                 <div
-                                                                    class="form-group{{ $errors->has('parents') ? ' has-danger' : '' }}">
+                                                                    class="form-group{{ $errors->has('father_name') ? ' has-danger' : '' }}">
                                                                     <input
-                                                                        class="form-control{{ $errors->has('parents') ? ' is-invalid' : '' }}"
-                                                                        name="parents" id="input-parents" type="text"
-                                                                        placeholder="{{ __('Parents') }}"
-                                                                        value="{{ old('parents', $memberFamily->parents) }}" data-required="true"
+                                                                        class="form-control{{ $errors->has('father_name') ? ' is-invalid' : '' }}"
+                                                                        name="father_name" id="input-father_name" type="text"
+                                                                        placeholder="{{ __('Father Name') }}"
+                                                                        value="{{ old('father_name', $memberFamily->father_name) }}" data-required="true"
                                                                         aria-data-required="true" />
-                                                                    @if ($errors->has('parents'))
+                                                                    @if ($errors->has('father_name'))
                                                                         <span id="name-error" class="error text-danger"
-                                                                            for="input-parents">{{ $errors->first('parents') }}</span>
+                                                                            for="input-father_name">{{ $errors->first('father_name') }}</span>
+                                                                    @endif
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            <label class="col-sm-5 col-form-label">{{ __('Mother Name') }}</label>
+                                                            <div class="col-sm-12">
+                                                                <div
+                                                                    class="form-group{{ $errors->has('mother_name') ? ' has-danger' : '' }}">
+                                                                    <input
+                                                                        class="form-control{{ $errors->has('mother_name') ? ' is-invalid' : '' }}"
+                                                                        name="mother_name" id="input-mother_name" type="text"
+                                                                        placeholder="{{ __('Mother Name') }}"
+                                                                        value="{{ old('mother_name', $memberFamily->mother_name) }}" data-required="true"
+                                                                        aria-data-required="true" />
+                                                                    @if ($errors->has('mother_name'))
+                                                                        <span id="name-error" class="error text-danger"
+                                                                            for="input-mother_name">{{ $errors->first('mother_name') }}</span>
                                                                     @endif
 
                                                                 </div>

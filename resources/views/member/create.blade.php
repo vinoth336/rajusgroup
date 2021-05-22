@@ -437,25 +437,42 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <label class="col-sm-2 col-form-label">{{ __('Parents') }}</label>
+                                                        <label class="col-sm-2 col-form-label">{{ __('Father Name') }}</label>
                                                         <div class="col-sm-7">
                                                             <div
-                                                                class="form-group{{ $errors->has('parents') ? ' has-danger' : '' }}">
+                                                                class="form-group{{ $errors->has('father_name') ? ' has-danger' : '' }}">
                                                                 <input
-                                                                    class="form-control{{ $errors->has('parents') ? ' is-invalid' : '' }}"
-                                                                    name="parents" id="input-parents" type="text"
+                                                                    class="form-control{{ $errors->has('father_name') ? ' is-invalid' : '' }}"
+                                                                    name="father_name" id="input-father_name" type="text"
                                                                     placeholder="{{ __('Parents') }}"
-                                                                    value="{{ old('parents') }}" />
-                                                                @if ($errors->has('parents'))
+                                                                    value="{{ old('father_name') }}" />
+                                                                @if ($errors->has('father_name'))
                                                                     <span id="name-error" class="error text-danger"
-                                                                        for="input-parents">{{ $errors->first('parents') }}</span>
+                                                                        for="input-father_name">{{ $errors->first('father_name') }}</span>
                                                                 @endif
 
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <label class="col-sm-2 col-form-label">{{ __('Brothers') }}</label>
+                                                        <label class="col-sm-2 col-form-label">{{ __('Mother Name') }}</label>
+                                                        <div class="col-sm-7">
+                                                            <div
+                                                                class="form-group{{ $errors->has('mother_name') ? ' has-danger' : '' }}">
+                                                                <input
+                                                                    class="form-control{{ $errors->has('mother_name') ? ' is-invalid' : '' }}"
+                                                                    name="mother_name" id="input-mother_name" type="text"
+                                                                    placeholder="{{ __('Mother Name') }}"
+                                                                    value="{{ old('mother_name') }}" />
+                                                                @if ($errors->has('mother_name'))
+                                                                    <span id="name-error" class="error text-danger"
+                                                                        for="input-mother_name">{{ $errors->first('mother_name') }}</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="col-sm-2 col-form-label">{{ __('No of Brothers') }}</label>
                                                         <div class="col-sm-7">
                                                             <div
                                                                 class="form-group{{ $errors->has('brothers') ? ' has-danger' : '' }}">
